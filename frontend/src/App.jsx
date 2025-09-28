@@ -13,7 +13,7 @@ function App() {
           <ul className="menu">
             <li>INÍCIO</li>
             <li>PRODUTOS</li>
-            <li>SERVIÇOS</li>
+            <li>DUVIDAS</li>
             <li>CONTATO</li>
             <li>REVIEWS</li>
           </ul>
