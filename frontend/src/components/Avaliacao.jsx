@@ -7,8 +7,8 @@ export default function Avaliacao({ rating }) {
         <Star
           key={i}
           size={20}
-          fill={i < rating ? "#FFD700" : "none"}  // dourado quando ativo
-          stroke="#FFD700" // contorno dourado
+          fill={i < rating ? "#FFD700" : "none"} 
+          stroke="#FFD700" 
         />
       ))}
     </div>
