@@ -1,4 +1,4 @@
-.favoritos-container {
+.container {
   display: flex;
   justify-content: center;
   padding: 40px;
@@ -6,7 +6,7 @@
   min-height: 100vh;
 }
 
-.favoritos-box {
+.favoritos-caixa {
   background: #fff;
   padding: 30px;
   border-radius: 12px;
@@ -15,7 +15,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.favoritos-titulo {
+.titulo-favoritos{
   text-align: center;
   margin-bottom: 30px;
   font-size: 24px;
@@ -36,50 +36,50 @@
   padding-bottom: 15px;
 }
 
-.favorito-img {
+.favimg{
   width: 80px;
   height: 80px;
   object-fit: contain;
   border-radius: 8px;
 }
 
-.favorito-info {
+.info {
   flex: 1;
   padding: 0 15px;
 }
 
-.favorito-label {
+.label {
   font-size: 12px;
   color: #777;
 }
 
-.favorito-nome {
+.nome {
   font-weight: bold;
   margin: 5px 0;
 }
 
-.favorito-desc {
+.descricao {
   font-size: 14px;
   color: #555;
 }
 
-.favorito-heart {
+.coracao {
   background: none;
   border: none;
   cursor: pointer;
   color: #aaa;
 }
 
-.favorito-heart:hover {
+.coracao:hover {
   color: red;
 }
 
-.favoritos-voltar {
+.botao {
   margin-top: 20px;
   text-align: right;
 }
 
-.favoritos-voltar button {
+.botao button {
   padding: 8px 16px;
   border: 1px solid #ccc;
   background: none;

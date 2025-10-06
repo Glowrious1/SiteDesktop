@@ -101,24 +101,56 @@ export default function Home() {
       </section>
 
       {/* VANTAGENS */}
-      <section className="vantagens">
-        <img src="src/public/image5.png" alt="vantagens" />
-        <h2>VANTAGENS DE GARANTIR NOSSOS PRODUTOS</h2>
-        <ul>
-          <li>
-            <strong>Segurança e Confiança na Compra</strong> - Garantia de
-            produtos de qualidade com eficácia comprovada.
-          </li>
-          <li>
-            <strong>Economia a Longo Prazo</strong> - Produtos desenvolvidos
-            para durabilidade e resultado eficaz.
-          </li>
-          <li>
-            <strong>Valorização do Investimento</strong> - Produtos premium que
-            cuidam da sua pele.
-          </li>
-        </ul>
-      </section>
+        <section className="vantagens">
+          <div className="vanta-container">
+            <div className="vanta-img">
+              <img src="src/public/image5.png" alt="vantagens" />
+            </div>
+
+            <div className="vanta-textos">
+              <h2>
+                VANTAGENS DE GARANTIR <br /> NOSSOS PRODUTOS
+              </h2>
+
+              <ul>
+                <li>
+                  <span className="numero">1</span>
+                  <div>
+                    <strong>Segurança e Confiança na Compra</strong>
+                    <p>
+                      Garantir o produto oferece ao cliente a tranquilidade de saber que,
+                      caso haja algum tipo de problema, ele terá suporte ou substituição
+                      sem custos adicionais.
+                    </p>
+                  </div>
+                </li>
+
+                <li>
+                  <span className="numero">2</span>
+                  <div>
+                    <strong>Economia a Longo Prazo</strong>
+                    <p>
+                      Com a garantia, o cliente evita gastos futuros com manutenção ou
+                      troca do produto, o que representa um bom custo-benefício.
+                    </p>
+                  </div>
+                </li>
+
+                <li>
+                  <span className="numero">3</span>
+                  <div>
+                    <strong>Valorização do Investimento</strong>
+                    <p>
+                      Um produto garantido e de qualidade se mantém valorizado e
+                      confiável, o que demonstra que o cliente aposta em um investimento
+                      sólido e duradouro.
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
       {/* SEÇÃO EXTRA */}
       <section className="extra">
@@ -144,16 +176,28 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="footer">
-        <div className="footer-info">
-          <p>(55) 11 1023-2362</p>
-          <p>lustrious@gmail.com</p>
+        <div className="footer-container">
+          <div className="lado-esquerdo">
+            <p>(55) 11 14323-2342</p>
+            <p>LUSTRIOUS@GMAIL.COM</p>
+          </div>
+
+        <div className="footer-icons">
+          <a href="https://www.instagram.com/lustriousskincare/">
+            <img src="src/public/instagram.png" alt="Instagram" />
+          </a>
+          <a href="#">
+            <img src="src/public/linkedin.png" alt="LinkedIn" />
+          </a>
+          <a href="#">
+            <img src="src/public/whatsapp.png" alt="WhatsApp" />
+          </a>
         </div>
-        <div className="footer-social">
-          <img src="src/public/instagram.png" />
-          <img src="src/public/linkedin.png" />
-          <img src="src/public/whatsapp.png" />
+      </div>
+
+        <div className="direitos-autorais">
+          <p>&copy;DIREITOS AUTORAIS</p>
         </div>
-        <p>DIREITOS AUTORAIS</p>
       </footer>
     </div>
   );

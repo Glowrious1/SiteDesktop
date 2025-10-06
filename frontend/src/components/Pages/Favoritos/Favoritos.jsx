@@ -10,63 +10,59 @@ export default function Favoritos() {
       nome: "Blush cremoso Lustrous",
       descricao:
         "Com textura macia e fácil de espalhar, entrega cor natural e luminosidade instantânea. Sua fórmula leve garante praticidade na aplicação, podendo ser usada com os dedos ou pincel, deixando a pele com um ar saudável e radiante o dia todo.",
-      imagem: "./public/blush.png",
+      imagem: "/blush.png",
     },
     {
       id: 2,
       nome: "Blush cremoso Lustrous",
       descricao:
         "Com textura macia e fácil de espalhar, entrega cor natural e luminosidade instantânea. Sua fórmula leve garante praticidade na aplicação, podendo ser usada com os dedos ou pincel, deixando a pele com um ar saudável e radiante o dia todo.",
-      imagem: "/images/blush2.png",
+      imagem: "/blush.png", 
     },
     {
       id: 3,
       nome: "Blush cremoso Lustrous",
       descricao:
         "Com textura macia e fácil de espalhar, entrega cor natural e luminosidade instantânea. Sua fórmula leve garante praticidade na aplicação, podendo ser usada com os dedos ou pincel, deixando a pele com um ar saudável e radiante o dia todo.",
-      imagem: "/images/blush3.png",
+      imagem: "/blush.png",
     },
     {
       id: 4,
       nome: "Blush cremoso Lustrous",
       descricao:
         "Com textura macia e fácil de espalhar, entrega cor natural e luminosidade instantânea. Sua fórmula leve garante praticidade na aplicação, podendo ser usada com os dedos ou pincel, deixando a pele com um ar saudável e radiante o dia todo.",
-      imagem: "/images/blush4.png",
+       imagem: "/blush.png",
     },
   ];
 
   return (
-    <div className="favoritos-container">
-      <div className="favoritos-box">
-        <h1 className="favoritos-titulo">Favoritos</h1>
+    <div className="container">
+      <div className="favoritos-caixa">
+        <h1 className="titulo-favoritos">Favoritos</h1>
 
         <div className="favoritos-lista">
           {favoritos.map((produto) => (
-            <div key={produto.id} className="favorito-item">
-              {/* Imagem */}
+            <div key={produto.id} className="item">
               <img
                 src={produto.imagem}
                 alt={produto.nome}
-                className="favorito-img"
+                className="imgfav"
               />
 
-              {/* Texto */}
-              <div className="favorito-info">
-                <p className="favorito-label">Produto</p>
-                <h2 className="favorito-nome">{produto.nome}</h2>
-                <p className="favorito-desc">{produto.descricao}</p>
+              <div className="info">
+                <p className="label">Produto</p>
+                <h2 className="nomefav">{produto.nome}</h2>
+                <p className="descricao">{produto.descricao}</p>
               </div>
 
-              {/* Ícone coração */}
-              <button className="favorito-heart">
+              <button className="coracao">
                 <Heart size={22} />
               </button>
             </div>
           ))}
         </div>
 
-        {/* Botão voltar */}
-        <div className="favoritos-voltar">
+        <div className="botao">
             <button>← Voltar</button>
         </div>
       </div>
