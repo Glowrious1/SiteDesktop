@@ -216,30 +216,72 @@ body {
 
 
 /* SEÇÃO EXTRA  */
-
 .extra {
-  padding: 60px;
-  display: grid;
-  gap: 30px;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
+
 
 .extra .bloco {
-  display: grid;
-  grid-template-columns: 2fr 1fr; 
+  font-family: "Aboreto";
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: 50px;
 }
 
-.extra .bloco img {
+
+.extra .bloco.reverse {
+  flex-direction: row-reverse;
+}
+
+.extra .bloco.reverse p {
+  margin-left: 0;
+  margin-right: auto; 
   width: 100%;
+  max-width: none;
+  text-align: left; 
+}
+
+
+.extra .bloco img {
+  width: 35%;
   border-radius: 12px;
+  object-fit: cover;
+  display: block;
 }
 
 .extra .bloco p {
-  font-size: 15px;
-  line-height: 1.5;
+  width: 50%;            
+  max-width: 700px; 
+  font-size: 30px;
+  line-height: 1.6;
   margin: 0;
+}
+
+
+@media (max-width: 768px) {
+  .extra {
+    padding: 24px;
+    gap: 32px;
+  }
+
+  .extra .bloco,
+  .extra .bloco.reverse {
+    flex-direction: column; 
+    text-align: left;
+  }
+
+  .extra .bloco img,
+  .extra .bloco p {
+    width: 90%;
+  }
+
+  .extra .bloco img {
+    margin-bottom: 16px;
+  }
 }
 
 /* FOOTER */

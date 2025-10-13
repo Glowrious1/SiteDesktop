@@ -1,16 +1,23 @@
 import { ShoppingCart, Heart, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Avaliacao from "../../Avaliacao.jsx";
-import "./App.css";
+import "./Home.css";
 
 
 export default function Home() {
+  const navigate = useNavigate();
+
+    const irParaProduto = () => {
+      navigate("/produto");
+    };
+
   return (
     <div className="app">
       {/* HEADER */}
       <header className="header">
         <div className="logo">
-          <img src="src/public/logo.png" alt="Logo" />
+          <img src="/logo.png" alt="Logo" />
         </div>
 
         <nav>
@@ -34,12 +41,12 @@ export default function Home() {
 
       {/* BANNER */}
       <div className="banner">
-        <img src="src/public/banner1.png" alt="banner" />
+        <img src="/banner1.png" alt="banner" />
       </div>
 
       {/* SOBRE */}
       <section className="sobre">
-        <img src="src/public/image4.png" alt="produtos" />
+        <img src="/image4.png" alt="produtos" />
         <div className="sobre-texto">
           <p>
             Fórmulas de alto performance, perfeitas para potencializar seus
@@ -52,45 +59,50 @@ export default function Home() {
 
       {/* PRODUTOS */}
       <section className="produtos">
-        <h2>Preferidos em Skincare</h2>
+       <h2>Preferidos em Skincare</h2>
         <div className="lista-produtos">
-          <div className="card">
-            <img src="src/public/blush.png" alt="produto" />
+          <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
+            <img src="/blush.png" alt="produto" />
             <h3>Maquiagem sol (5g)</h3>
             <Avaliacao rating={2} />
             <p>R$ 120,00</p>
             <button>Adicione a bolsa</button>
           </div>
-          <div className="card">
-            <img src="src/public/blush.png" alt="produto" />
+
+          <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
+            <img src="/blush.png" alt="produto" />
             <h3>Maquiagem sol (5g)</h3>
             <Avaliacao rating={2} />
             <p>R$ 120,00</p>
             <button>Adicione a bolsa</button>
           </div>
-          <div className="card">
-            <img src="src/public/blush.png" alt="produto" />
+
+            <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
+            <img src="/blush.png" alt="produto" />
+            <h3>Maquiagem sol (5g)</h3>
+            <Avaliacao rating={3} />
+            <p>R$ 120,00</p>
+            <button>Adicione a bolsa</button>
+          </div>
+
+           <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
+            <img src="/blush.png" alt="produto" />
+            <h3>Maquiagem sol (5g)</h3>
+            <Avaliacao rating={5} />
+            <p>R$ 120,00</p>
+            <button>Adicione a bolsa</button>
+          </div>
+
+            <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
+            <img src="/blush.png" alt="produto" />
             <h3>Maquiagem sol (5g)</h3>
             <Avaliacao rating={2} />
             <p>R$ 120,00</p>
             <button>Adicione a bolsa</button>
           </div>
-          <div className="card">
-            <img src="src/public/blush.png" alt="produto" />
-            <h3>Maquiagem sol (5g)</h3>
-            <Avaliacao rating={2} />
-            <p>R$ 120,00</p>
-            <button>Adicione a bolsa</button>
-          </div>
-          <div className="card">
-            <img src="src/public/blush.png" alt="produto" />
-            <h3>Maquiagem sol (5g)</h3>
-            <Avaliacao rating={2} />
-            <p>R$ 120,00</p>
-            <button>Adicione a bolsa</button>
-          </div>
-                   <div className="card">
-            <img src="src/public/blush.png" alt="produto" />
+
+           <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
+            <img src="/blush.png" alt="produto" />
             <h3>Maquiagem sol (5g)</h3>
             <Avaliacao rating={2} />
             <p>R$ 120,00</p>
@@ -104,7 +116,7 @@ export default function Home() {
         <section className="vantagens">
           <div className="vanta-container">
             <div className="vanta-img">
-              <img src="src/public/image5.png" alt="vantagens" />
+              <img src="/image5.png" alt="vantagens" />
             </div>
 
             <div className="vanta-textos">
@@ -152,27 +164,35 @@ export default function Home() {
           </div>
         </section>
 
-      {/* SEÇÃO EXTRA */}
+        {/* SEÇÃO EXTRA */}
       <section className="extra">
         <div className="bloco">
-          <img src="src/public/image6.png" alt="extra" />
+          <img src="/image6.png" alt="extra" />
           <p>
-            Nossos cosméticos foram desenvolvidos por especialistas para tratar
-            sua pele com eficácia e segurança. Beleza com resultado de clínica.
+         Cuidar da sua pele é um ritual de amor-próprio.
+         Nossas fórmulas exclusivas foram criadas por especialistas para oferecer resultados visíveis, com eficácia e segurança.
+         Beleza que nasce do cuidado diário.
           </p>
         </div>
-        <div className="bloco">
-          <img src="src/public/image7.png" alt="extra" />
+   
+        <div className="bloco reverse">
+          <img src="/image7.png" alt="extra" />
           <p>
-            Fórmulas de alta performance, perfeitas para potencializar seus
-            cuidados diários.
+            Ingredientes de alta performance que realçam o que há de melhor em você.
+            Texturas leves, sensoriais e desenvolvidas para potencializar sua rotina de beleza.
+            Sinta-se confiante em cada detalhe.
           </p>
         </div>
+
         <div className="bloco">
-          <img src="src/public/image8.png" alt="extra" />
-          <p>Beleza com resultado de clínica, direto na sua casa.</p>
+          <img src="/image8.png" alt="extra" />
+          <p>A beleza está em compartilhar o bem-estar.
+            Produtos pensados para todos os tipos de pele, com resultados de clínica no conforto da sua casa.
+            Cuidar de si é um gesto que transforma.
+          </p>
         </div>
       </section>
+
 
       {/* FOOTER */}
       <footer className="footer">
@@ -184,13 +204,13 @@ export default function Home() {
 
         <div className="footer-icons">
           <a href="https://www.instagram.com/lustriousskincare/">
-            <img src="src/public/instagram.png" alt="Instagram" />
+            <img src="/instagram.png" alt="Instagram" />
           </a>
           <a href="#">
-            <img src="src/public/linkedin.png" alt="LinkedIn" />
+            <img src="/linkedin.png" alt="LinkedIn" />
           </a>
           <a href="#">
-            <img src="src/public/whatsapp.png" alt="WhatsApp" />
+            <img src="/whatsapp.png" alt="WhatsApp" />
           </a>
         </div>
       </div>
