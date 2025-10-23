@@ -17,7 +17,9 @@ export default function Produto() {
             <li>
             <Link to="/">INÍCIO</Link>
             </li>
-            <li>PRODUTOS</li>
+              <li>
+              <Link to="/produtos" >PRODUTOS</Link>
+            </li>
             <li>DUVIDAS</li>
             <li>CONTATO</li>
           </ul>
@@ -107,7 +109,7 @@ export default function Produto() {
         </div>
 
         <div className="direitos-autorais2">
-          <p>&copy; DIREITOS AUTORAIS</p>
+          <p>&copy; DIREITOS AUTORAIS 2025</p>
         </div>
       </footer>
     </div>

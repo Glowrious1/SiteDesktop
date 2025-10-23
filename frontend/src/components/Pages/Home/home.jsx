@@ -22,11 +22,14 @@ export default function Home() {
 
         <nav>
           <ul className="menu">
-            <li>INÍCIO</li>
-            <li>PRODUTOS</li>
+             <li>
+            <Link to="/">INÍCIO</Link>
+            </li>
+            <li>
+              <Link to="/produtos" >PRODUTOS</Link>
+            </li>
             <li>DUVIDAS</li>
             <li>CONTATO</li>
-            <li>REVIEWS</li>
           </ul>
         </nav>
 
@@ -216,7 +219,7 @@ export default function Home() {
       </div>
 
         <div className="direitos-autorais">
-          <p>&copy;DIREITOS AUTORAIS</p>
+          <p>&copy;DIREITOS AUTORAIS 2025</p>
         </div>
       </footer>
     </div>
