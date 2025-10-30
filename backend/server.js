@@ -1,9 +1,19 @@
 // Declarando as dependencias que serão utilizadas no projeto
 const express = require("express");
 const cors = require("cors");
+const mysql = require("mysql");
 
 // App recebe a função do express para realizar as operações
 const app = express()
+
+//Declanrando o banco de dados
+const db = mysql.createPool({
+    host: "localhost",
+    user: "root",
+    password: "12345678",
+    database: "dbilumina",
+    insecureAuth: true
+});
 //Usando o  express para converte os dados em JSON
 app.use(express.json()); // converte todo hmtl em  json
 // Usando o cors
@@ -35,10 +45,28 @@ app.post("/calcularfrete",(req,res)=>{
     }
     const valorTotal = distancia * precoPorKm;
     res.json({valorTotal:valorTotal.toFixed(2)})// retorna o valor com 2 casas decimais
-})
+});
+
+app.get("/carrinho/:id", (req, res) => {
+    const q = `SELECT * FROM Carrinho WHERE IdUser = ${req.params.id}`;
+    //Pega a conexão
+    db.getConnection((err, connection) => {
+        //Verifica se tem algum erro
+        if(err) {
+            console.log("Erro na conexão:", err);
+            return res.status(500).json({ error: "Erro de conexão com o banco de dados"});
+        }
+        
+        connection.query(q, (err, resultado) => {
+            connection.release();
+            if (err) return res.json(err);
+            return res.json(resultado);
+        })
+    });
+});
 
 
 // executando o servidor
 app.listen(port,()=>{
     console.log(`Servidor Rodando na Porta:${port}`)
-})
+});
