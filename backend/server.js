@@ -70,3 +70,5 @@ app.get("/carrinho/:id", (req, res) => {
 app.listen(port,()=>{
     console.log(`Servidor Rodando na Porta:${port}`)
 });
+
+//mano bugo legal
