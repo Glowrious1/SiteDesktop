@@ -9,7 +9,7 @@
 }
 
 /* ======== HEADER ======== */
-.header2 {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -18,7 +18,7 @@
   border-bottom: 1px solid #e1d3c6;
 }
 
-.menu2 {
+.menu {
   list-style: none;
   display: flex;
   gap: 25px;
@@ -27,11 +27,11 @@
   cursor: pointer;
 }
 
-.menu2 li:hover {
+.menu li:hover {
   color: #a67c52;
 }
 
-.icons2 {
+.icons {
   display: flex;
   gap: 15px;
   align-items: center;

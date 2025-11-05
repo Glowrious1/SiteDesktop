@@ -1,0 +1,71 @@
+.cadastro-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("/image14.jpg"); /* troque pela sua imagem */
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.cadastro-box {
+  background: linear-gradient(to bottom right, #a8775b, #984F25);
+  padding: 40px;
+  border-radius: 10px;
+  color: #fff;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cadastro-box h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.cadastro-box label {
+  text-align: left;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.cadastro-box input {
+  padding: 8px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 6px;
+  background-color: #e9e3df;
+  font-size: 14px;
+  width: 100%;
+}
+
+.cadastro-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.voltar {
+  background-color: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.cadastrar {
+  background-color: #e9e3df;
+  color: #3a2a1a;
+}

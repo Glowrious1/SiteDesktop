@@ -7,13 +7,13 @@ export default function Produto() {
   return (
     <div className="produto-pagina">
       {/* HEADER */}
-      <header className="header2">
+      <header className="header">
         <div className="logo">
           <img src="/logo.png" alt="Logo" />
         </div>
 
         <nav>
-          <ul className="menu2">
+          <ul className="menu">
             <li>
             <Link to="/">INÍCIO</Link>
             </li>
@@ -25,12 +25,14 @@ export default function Produto() {
           </ul>
         </nav>
 
-        <div className="icons2">
+        <div className="icons">
           <Link to="/favoritos">
             <Heart size={22} strokeWidth={1.5} />
           </Link>
           <ShoppingCart size={22} strokeWidth={1.5} />
+          <Link to="/login">
           <User size={22} strokeWidth={1.5} />
+          </Link>
         </div>
       </header>
 

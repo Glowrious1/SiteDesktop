@@ -33,7 +33,9 @@ export default function Produtos() {
             <Heart size={22} strokeWidth={1.5} />
           </Link>
           <ShoppingCart size={22} strokeWidth={1.5} />
+          <Link to="/login">
           <User size={22} strokeWidth={1.5} />
+          </Link>
         </div>
       </header>
 
