@@ -10,7 +10,7 @@ const app = express()
 const db = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "12345678",
+    password: "2312",
     database: "dbilumina",
     insecureAuth: true
 });
