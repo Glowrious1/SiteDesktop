@@ -67,7 +67,7 @@ export default function Produtos() {
         <h3>Escolha seu tratamento</h3>
 
         <div className="categorias">
-          <div className="categoria">
+          <div className="categoria" onClick={() => navigate("/rosto")}>
             <img src="/image10.jpg" alt="Rosto" />
             <span>ROSTO</span>
           </div>
@@ -77,7 +77,7 @@ export default function Produtos() {
           </div>
           <div className="categoria">
             <img src="/perfumes.jpg" alt="Pele" />
-            <span>PELE</span>
+            <span>PERFUMES</span>
           </div>
           <div className="categoria">
             <img src="/image12.jpg" alt="Corpo" />
