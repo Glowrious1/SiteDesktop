@@ -18,7 +18,7 @@ Senha varchar(150) ,
 Sexo enum('Masculino','Feminino','NERF'),
 CPF varchar(14) not null,
 Role enum('Admin','Cliente','Funcionario'),
-CEP int,
+CEP varchar(9),
 Ativo char(1)  default '1'
 );
 
