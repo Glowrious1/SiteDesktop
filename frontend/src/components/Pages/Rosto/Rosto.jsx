@@ -71,12 +71,12 @@ export default function Rosto() {
         </div>
       </section>
        <section className="produtos">
-               <h2>Preferidos em Skincare</h2>
+               <h2>Produtos para o Rosto</h2>
                 <div className="lista-produtos">
                   <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
                     <img src="/blush.png" alt="produto" />
-                    <h3>Maquiagem sol (5g)</h3>
-                    <Avaliacao rating={2} />
+                    <h3>Blush em pó (6g)</h3>
+                    <Avaliacao rating={4} />
                     <p>R$ 120,00</p>
                     <button>Adicione a bolsa</button>
                   </div>
@@ -98,46 +98,46 @@ export default function Rosto() {
                   </div>
         
                    <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-                    <img src="/blush.png" alt="produto" />
-                    <h3>Maquiagem sol (5g)</h3>
+                    <img src="/gloss1.png" alt="produto" />
+                    <h3>Gloss Rouge Royale – 6 ml</h3>
                     <Avaliacao rating={5} />
                     <p>R$ 120,00</p>
                     <button>Adicione a bolsa</button>
                   </div>
         
                     <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-                    <img src="/blush.png" alt="produto" />
-                    <h3>Maquiagem sol (5g)</h3>
+                    <img src="/gloss2.png" alt="produto" />
+                    <h3>Gloss Crystal Frost - 6ml</h3>
                     <Avaliacao rating={2} />
                     <p>R$ 120,00</p>
                     <button>Adicione a bolsa</button>
                   </div>
         
                    <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-                    <img src="/blush.png" alt="produto" />
-                    <h3>Maquiagem sol (5g)</h3>
+                    <img src="/gloss3.png" alt="produto" />
+                    <h3>Gloss Pink Velvet – 6 ml</h3>
                     <Avaliacao rating={2} />
                     <p>R$ 120,00</p>
                     <button>Adicione a bolsa</button>
                   </div>
       
                   <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-                    <img src="/blush.png" alt="produto" />
-                    <h3>Maquiagem sol (5g)</h3>
+                    <img src="/gloss4.png" alt="produto" />
+                    <h3>Gloss Bronze Amour - 6ml</h3>
                     <Avaliacao rating={2} />
                     <p>R$ 120,00</p>
                     <button>Adicione a bolsa</button>
                   </div>
                   <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-                    <img src="/blush.png" alt="produto" />
-                    <h3>Maquiagem sol (5g)</h3>
+                    <img src="/gloss5.png" alt="produto" />
+                    <h3>Gloss Cocoa Glow – 6 ml </h3>
                     <Avaliacao rating={2} />
                     <p>R$ 120,00</p>
                     <button>Adicione a bolsa</button>
                   </div>
                   <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-                    <img src="/blush.png" alt="produto" />
-                    <h3>Maquiagem sol (5g)</h3>
+                    <img src="/base4.png" alt="produto" />
+                    <h3>Base (5g)</h3>
                     <Avaliacao rating={2} />
                     <p>R$ 120,00</p>
                     <button>Adicione a bolsa</button>
