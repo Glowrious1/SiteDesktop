@@ -72,3 +72,29 @@ app.listen(port,()=>{
 });
 
 //mano bugo legal
+
+app.post("/login", (req, res) => {
+    const { email, senha } = req.body;
+
+    const sql = `
+        SELECT * FROM Usuario 
+        WHERE Email = ? AND Senha = ? AND Ativo = '1'
+    `;
+
+    db.query(sql, [email, senha], (err, result) => {
+        if (err) return res.status(500).send(err);
+
+        if (result.length === 0) {
+            return res.json({ auth: false, message: "Email ou senha incorretos!" });
+        }
+
+        const usuario = result[0];
+
+        res.json({
+            auth: true,
+            id: usuario.IdUser,
+            nome: usuario.Nome,
+            role: usuario.Role
+        });
+    });
+});
