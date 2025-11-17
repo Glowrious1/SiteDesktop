@@ -15,7 +15,7 @@ export default function Produtos() {
           <img src="/logo.png" alt="Logo" />
         </div>
 
-        <nav>
+         <nav>
           <ul className="menu">
              <li>
             <Link to="/">INÍCIO</Link>
@@ -23,8 +23,8 @@ export default function Produtos() {
             <li>
               <Link to="/produtos" >PRODUTOS</Link>
             </li>
-            <li>DUVIDAS</li>
-            <li>CONTATO</li>
+            <li>
+              <Link to="/duvidas">DUVIDAS</Link></li>
           </ul>
         </nav>
 

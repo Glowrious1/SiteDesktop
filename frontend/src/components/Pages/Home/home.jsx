@@ -28,8 +28,8 @@ export default function Home() {
             <li>
               <Link to="/produtos" >PRODUTOS</Link>
             </li>
-            <li>DUVIDAS</li>
-            <li>CONTATO</li>
+            <li>
+              <Link to="/duvidas">DUVIDAS</Link>  </li>
           </ul>
         </nav>
 
@@ -68,7 +68,7 @@ export default function Home() {
        <h2>Preferidos em Skincare</h2>
         <div className="lista-produtos">
           <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-            <img src="/blush.png" alt="produto" />
+            <img src="/CremeFacila2.jpg" alt="produto" />
             <h3>Maquiagem sol (5g)</h3>
             <Avaliacao rating={2} />
             <p>R$ 120,00</p>
