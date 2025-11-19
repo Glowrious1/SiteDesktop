@@ -1,10 +1,9 @@
-import NavBar from "../components/NavBar";
 import "./FunHome.css";
 
 export default function FuncionarioHome() {
   return (
     <div className="func-container">
-      <NavBar />
+
 
       <div className="func-content">
         <div className="banner-func"></div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -16,34 +17,26 @@ function Login() {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          senha
-        })
+      const response = await axios.post("http://localhost:3001/login", {
+        email: email,
+        senha: senha
       });
 
-      const data = await response.json();
+      const data = response.data;
 
       if (!data.auth) {
         alert("Usuário ou senha incorretos!");
         return;
       }
 
-      // 🔥 Redirecionamento por tipo de usuário
       if (data.role === "Admin" || data.role === "Funcionario") {
-        navigate("/funhome");
+        navigate("/FuncionarioHome");
       } else if (data.role === "Cliente") {
         navigate("/");
       }
 
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
-      alert("Erro ao conectar ao servidor!");
+      throw error;
     }
   };
 
@@ -60,7 +53,7 @@ function Login() {
       <div className="login-form">
         <h2 className="login-title">Login</h2>
 
-        {/* 🔥 Agora o formulário usa handleLogin */}
+
         <form onSubmit={handleLogin}>
           <label htmlFor="email">Email</label>
           <input
@@ -92,8 +85,7 @@ function Login() {
           <button
             type="button"
             className="btn-cadastrar"
-            onClick={() => navigate("/cadastro")}
-          >
+            onClick={() => navigate("/cadastro")}>
             Cadastrar aqui
           </button>
         </form>
@@ -103,3 +95,5 @@ function Login() {
 }
 
 export default Login;
+
+git status
