@@ -54,15 +54,6 @@ function Cadastro() {
             required
           />
 
-          <label>Celular</label>
-          <input
-            type="text"
-            name="celular"
-            placeholder="(XX) XXXXX-XXXX"
-            value={form.celular}
-            onChange={handleChange}
-          />
-
           <label>CPF</label>
           <input
             type="text"

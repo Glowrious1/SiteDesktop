@@ -3,13 +3,17 @@ import Home from "./components/Pages/Home/home.jsx";
 import Favoritos from "./components/Pages/Favoritos/Favoritos.jsx";
 import Produto from "./components/Pages/Produto/Produto.jsx";
 import Produtos from "./components/Pages/Produtos/Produtos.jsx"; 
-import Login from "./components/Pages/Login/login.jsx";
 import Cadastro from "./components/Pages/Cadastro/Cadastro.jsx";
 import Rosto from "./components/Pages/Rosto/Rosto.jsx";
 import Duvidas from "./components/Pages/Duvidas/Duvidas.jsx";
+<<<<<<< HEAD
 import Corpo from "./components/Pages/Corpo/Corpo.jsx";
 
 
+=======
+import FuncionarioHome from "./components/Pages/FuncionarioHome/FunHome.jsx";
+import Login from "./components/Pages/Login/Login.jsx";
+>>>>>>> e6fe4a73e7b76c8cd314fd63f68b5360a343325e
 
 function App() {
   return (
@@ -22,7 +26,11 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/rosto" element={<Rosto />} />
       <Route path="/duvidas" element={<Duvidas/>}/>
+<<<<<<< HEAD
       <Route path="/corpo" element={<Corpo/>}/>
+=======
+      <Route path="/funcionario" element={<FuncionarioHome />} />
+>>>>>>> e6fe4a73e7b76c8cd314fd63f68b5360a343325e
     </Routes>
   );
 }

@@ -10,12 +10,13 @@ const app = express()
 const db = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "12345678",
+    password: "2312",
     database: "dbilumina",
     insecureAuth: true
 });
 //Usando o  express para converte os dados em JSON
 app.use(express.json()); // converte todo hmtl em  json
+
 // Usando o cors
 app.use(cors());
 //declarando  a porta do servidor
@@ -74,23 +75,38 @@ app.listen(port,()=>{
 //mano bugo legal
 
 app.post("/login", (req, res) => {
+    console.log("BODY RECEBIDO /login:", req.body);
+
     const { email, senha } = req.body;
 
-    const sql = `
-        SELECT * FROM Usuario 
-        WHERE Email = ? AND Senha = ? AND Ativo = '1'
-    `;
+    const teste = req.body;
+    console.log("teste:", teste);
+    console.log("Dados recebidos:", { email, senha });
 
-    db.query(sql, [email, senha], (err, result) => {
-        if (err) return res.status(500).send(err);
+    if (!email || !senha) {
+        return res.status(400).json({ auth: false, message: "Email e senha são obrigatórios" });
+    }
 
-        if (result.length === 0) {
+    const emailTrim = String(email).trim();
+    const senhaTrim = String(senha).trim();
+
+    const sql = "SELECT * FROM Usuario WHERE Email = ? AND Senha = ? AND Ativo = 1";
+
+    db.query(sql, [emailTrim, senhaTrim], (err, result) => {
+        if (err) {
+            console.error("Erro na query /login:", err);
+            return res.status(500).json({ auth: false, message: "Erro no servidor" });
+        }
+
+        if (!result || result.length === 0) {
             return res.json({ auth: false, message: "Email ou senha incorretos!" });
         }
 
+        console.log("Resultado da query /login:", result);
+
         const usuario = result[0];
 
-        res.json({
+        return res.json({
             auth: true,
             id: usuario.IdUser,
             nome: usuario.Nome,
