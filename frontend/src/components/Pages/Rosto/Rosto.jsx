@@ -29,7 +29,6 @@ export default function Rosto() {
               <Link to="/produtos" >PRODUTOS</Link>
             </li>
             <li>DUVIDAS</li>
-            <li>CONTATO</li>
           </ul>
         </nav>
 

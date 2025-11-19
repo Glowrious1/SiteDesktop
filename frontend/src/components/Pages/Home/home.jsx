@@ -29,7 +29,7 @@ export default function Home() {
               <Link to="/produtos" >PRODUTOS</Link>
             </li>
             <li>
-              <Link to="/duvidas">DUVIDAS</Link>  </li>
+              <Link to="/duvidas">DÚVIDAS</Link>  </li>
           </ul>
         </nav>
 
@@ -86,7 +86,7 @@ export default function Home() {
             <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
             <img src="/blush.png" alt="produto" />
             <h3>Maquiagem sol (5g)</h3>
-            <Avaliacao rating={3} />
+            <Avaliacao rating={2} />
             <p>R$ 120,00</p>
             <button>Adicione a bolsa</button>
           </div>
