@@ -7,6 +7,7 @@ import Login from "./components/Pages/Login/login.jsx";
 import Cadastro from "./components/Pages/Cadastro/Cadastro.jsx";
 import Rosto from "./components/Pages/Rosto/Rosto.jsx";
 import Duvidas from "./components/Pages/Duvidas/Duvidas.jsx";
+import Corpo from "./components/Pages/Corpo/Corpo.jsx";
 
 
 
@@ -21,6 +22,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/rosto" element={<Rosto />} />
       <Route path="/duvidas" element={<Duvidas/>}/>
+      <Route path="/corpo" element={<Corpo/>}/>
     </Routes>
   );
 }

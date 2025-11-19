@@ -63,7 +63,7 @@ export default function Rosto() {
             <img src="/perfumes.jpg" alt="Pele" />
             <span>PERFUMES</span>
           </div>
-          <div className="categoria">
+          <div className="categoria" onClick={() => navigate("/corpo")}>
             <img src="/image12.jpg" alt="Corpo" />
             <span>CORPO</span>
           </div>
