@@ -17,21 +17,11 @@ function Login() {
     }
 
     try {
-<<<<<<< HEAD
-      const response = await fetch("http://localhost:3001/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          senha
-        })
-=======
+
       const response = await axios.post("http://localhost:3001/login", {
         email: email,
         senha: senha
->>>>>>> e6fe4a73e7b76c8cd314fd63f68b5360a343325e
+ 
       });
 
       const data = response.data;
@@ -108,4 +98,4 @@ function Login() {
 
 export default Login;
 
-git status
+
