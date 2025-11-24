@@ -23,6 +23,8 @@ Ativo char(1)  default '1'
 );
 
 
+
+
 /*
 create table Funcionario (
 IdFun int primary key auto_increment
