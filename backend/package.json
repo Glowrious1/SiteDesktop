@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
+
     "test": "echo \"Error: no test specified\" && exit 1",
     "backend": "nodemon server.js"
-=======
-    "dev" : "nodemon server.js"
->>>>>>> e6fe4a73e7b76c8cd314fd63f68b5360a343325e
+
+
+
   },
   "keywords": [],
   "author": "",
