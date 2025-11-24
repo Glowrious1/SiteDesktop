@@ -23,6 +23,8 @@ Ativo char(1)  default '1'
 );
 
 
+INSERT INTO Usuario (Nome, Email, Senha, CPF, Role) VALUES ('Administrador Master', 'admin@site.com', 'admin123', '000.000.000-00', 'Admin');
+
 /*
 create table Funcionario (
 IdFun int primary key auto_increment
