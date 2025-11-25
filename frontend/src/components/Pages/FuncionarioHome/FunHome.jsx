@@ -31,11 +31,11 @@ export default function FuncionarioHome() {
 
         <nav className="menu1">
 
-          <button className="menu-btn active">
+          <button className="menu-btn active" onClick={() => navigate("/FuncionarioHome")}>
             <LayoutDashboard size={26} strokeWidth={1.7} />
           </button>
 
-          <button className="menu-btn">
+          <button className="menu-btn"   onClick={() => navigate("/Funcionario")}>
             <Users size={26} strokeWidth={1.7} />
           </button>
 

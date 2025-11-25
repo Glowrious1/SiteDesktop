@@ -9,6 +9,8 @@ import Duvidas from "./components/Pages/Duvidas/Duvidas.jsx";
 import Corpo from "./components/Pages/Corpo/Corpo.jsx";
 import FuncionarioHome from "./components/Pages/FuncionarioHome/FunHome.jsx";
 import Login from "./components/Pages/Login/Login.jsx";
+import Funcionario from "./components/Pages/Funcionario/Funcionario.jsx";
+import AdicioFun from "./components/Pages/AdicioFun/AdicioFun.jsx";
 
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
       <Route path="/duvidas" element={<Duvidas/>}/>
       <Route path="/corpo" element={<Corpo/>}/>
       <Route path="/FuncionarioHome" element={<FuncionarioHome />} />
+      <Route path="/Funcionario" element={<Funcionario />} />
+      <Route path="/AdicioFun" element={<AdicioFun />} />
     </Routes>
   );
 }
