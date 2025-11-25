@@ -1,41 +1,38 @@
 import { ShoppingCart, Heart, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Avaliacao from "../../Avaliacao.jsx";
-import "./Produtos.css"
+import produtos from "../../../data/produtos.js";
+
+import "./Produtos.css";
 
 export default function Produtos() {
   const navigate = useNavigate();
-  const irParaProduto = () => navigate("/produto");
+
+  function irParaProduto(id) {
+    navigate(`/produto/${id}`);
+  }
 
   return (
     <div className="pagina-produtos">
-  {/* HEADER */}
+
+      {/* HEADER */}
       <header className="header">
         <div className="logo">
           <img src="/logo.png" alt="Logo" />
         </div>
 
-         <nav>
+        <nav>
           <ul className="menu">
-             <li>
-            <Link to="/">INÍCIO</Link>
-            </li>
-            <li>
-              <Link to="/produtos" >PRODUTOS</Link>
-            </li>
-            <li>
-              <Link to="/duvidas">DUVIDAS</Link></li>
+            <li><Link to="/">INÍCIO</Link></li>
+            <li><Link to="/produtos">PRODUTOS</Link></li>
+            <li><Link to="/duvidas">DUVIDAS</Link></li>
           </ul>
         </nav>
 
         <div className="icons">
-          <Link to="/favoritos">
-            <Heart size={22} strokeWidth={1.5} />
-          </Link>
+          <Link to="/favoritos"><Heart size={22} strokeWidth={1.5} /></Link>
           <ShoppingCart size={22} strokeWidth={1.5} />
-          <Link to="/login">
-          <User size={22} strokeWidth={1.5} />
-          </Link>
+          <Link to="/login"><User size={22} strokeWidth={1.5} /></Link>
         </div>
       </header>
 
@@ -44,7 +41,7 @@ export default function Produtos() {
         <img src="/image9.jpg" alt="Banner" />
       </section>
 
-      {/* SEÇÃO INTRODUTÓRIA */}
+      {/* INTRO */}
       <section className="introducao-produtos">
         <h1>Produtos</h1>
         <p>
@@ -60,8 +57,7 @@ export default function Produtos() {
           necessidades reais da sua pele, garantindo eficácia sem abrir mão do prazer de cuidar
           de si. <br />
           Mais do que produtos, oferecemos uma rotina completa que une sofisticação, ciência e
-          bem-estar, levando até você resultados dignos de clínica, direto no conforto da sua
-          casa.
+          bem-estar.
         </p>
 
         <h3>Escolha seu tratamento</h3>
@@ -76,91 +72,37 @@ export default function Produtos() {
             <span>CABELO</span>
           </div>
           <div className="categoria">
-            <img src="/perfumes.jpg" alt="Pele" />
+            <img src="/perfumes.jpg" alt="Perfumes" />
             <span>PERFUMES</span>
           </div>
-          <div className="categoria">
+          <div className="categoria" onClick={() => navigate("/corpo")}>
             <img src="/image12.jpg" alt="Corpo" />
             <span>CORPO</span>
           </div>
         </div>
       </section>
 
-  <section className="produtos">
-         <h2>Preferidos em Skincare</h2>
-          <div className="lista-produtos">
-            <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-              <img src="/blush.png" alt="produto" />
-              <h3>Maquiagem sol (5g)</h3>
-              <Avaliacao rating={2} />
-              <p>R$ 120,00</p>
-              <button>Adicione a bolsa</button>
-            </div>
-  
-            <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-              <img src="/blush.png" alt="produto" />
-              <h3>Maquiagem sol (5g)</h3>
-              <Avaliacao rating={2} />
-              <p>R$ 120,00</p>
-              <button>Adicione a bolsa</button>
-            </div>
-  
-              <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-              <img src="/blush.png" alt="produto" />
-              <h3>Maquiagem sol (5g)</h3>
-              <Avaliacao rating={3} />
-              <p>R$ 120,00</p>
-              <button>Adicione a bolsa</button>
-            </div>
-  
-             <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-              <img src="/blush.png" alt="produto" />
-              <h3>Maquiagem sol (5g)</h3>
-              <Avaliacao rating={5} />
-              <p>R$ 120,00</p>
-              <button>Adicione a bolsa</button>
-            </div>
-  
-              <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-              <img src="/blush.png" alt="produto" />
-              <h3>Maquiagem sol (5g)</h3>
-              <Avaliacao rating={2} />
-              <p>R$ 120,00</p>
-              <button>Adicione a bolsa</button>
-            </div>
-  
-             <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-              <img src="/blush.png" alt="produto" />
-              <h3>Maquiagem sol (5g)</h3>
-              <Avaliacao rating={2} />
-              <p>R$ 120,00</p>
-              <button>Adicione a bolsa</button>
-            </div>
+      {/* PRODUTOS */}
+      <section className="produtos">
+        <h2>Preferidos na nossa loja!</h2>
 
-            <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-              <img src="/blush.png" alt="produto" />
-              <h3>Maquiagem sol (5g)</h3>
-              <Avaliacao rating={2} />
-              <p>R$ 120,00</p>
+        <div className="lista-produtos">
+          {produtos.map((p) => (
+            <div
+              key={p.id}
+              className="card"
+              onClick={() => irParaProduto(p.id)}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={p.imagem} alt={p.nome} />
+              <h3>{p.nome}</h3>
+              <Avaliacao rating={p.rating} />
+              <p>R$ {p.preco},00</p>
               <button>Adicione a bolsa</button>
             </div>
-            <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-              <img src="/blush.png" alt="produto" />
-              <h3>Maquiagem sol (5g)</h3>
-              <Avaliacao rating={2} />
-              <p>R$ 120,00</p>
-              <button>Adicione a bolsa</button>
-            </div>
-            <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-              <img src="/blush.png" alt="produto" />
-              <h3>Maquiagem sol (5g)</h3>
-              <Avaliacao rating={2} />
-              <p>R$ 120,00</p>
-              <button>Adicione a bolsa</button>
-            </div>
-            
-          </div>
-        </section>
+          ))}
+        </div>
+      </section>
 
       {/* OUTROS PRODUTOS */}
       <section className="outros-produtos">
@@ -170,18 +112,23 @@ export default function Produtos() {
         </div>
 
         <div className="lista-outros">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="card-outro">
-              <img src="/cremefacial.jpg" alt="Produto" />
-              <h3>Creme Facial</h3>
-              <Avaliacao rating={4} />
+          {produtos.slice(0, 4).map((p) => (
+            <div
+              key={p.id}
+              className="card-outro"
+              onClick={() => irParaProduto(p.id)}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={p.imagem} alt={p.nome} />
+              <h3>{p.nome}</h3>
+              <Avaliacao rating={p.rating} />
             </div>
           ))}
         </div>
       </section>
 
       {/* FOOTER */}
-         <footer className="footer3">
+      <footer className="footer3">
         <div className="footer-container3">
           <div className="lado-esquerdo23">
             <p>(55) 11 14323-2342</p>
@@ -192,12 +139,8 @@ export default function Produtos() {
             <a href="https://www.instagram.com/lustriousskincare/">
               <img src="/instagram.png" alt="Instagram" />
             </a>
-            <a href="#">
-              <img src="/linkedin.png" alt="LinkedIn" />
-            </a>
-            <a href="#">
-              <img src="/whatsapp.png" alt="WhatsApp" />
-            </a>
+            <a href="#"><img src="/linkedin.png" alt="LinkedIn" /></a>
+            <a href="#"><img src="/whatsapp.png" alt="WhatsApp" /></a>
           </div>
         </div>
 

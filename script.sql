@@ -22,7 +22,8 @@ CEP varchar(9),
 Ativo char(1)  default '1'
 );
 
-
+INSERT INTO Usuario (Nome, Email, Senha, CPF, Role)
+VALUES ('Administrador Master', 'admin@site.com', 'admin123', '000.000.000-00', 'Admin');
 
 
 /*
@@ -593,3 +594,5 @@ delimiter ;
 
 
  use dbilumina ;
+
+flush privileges;

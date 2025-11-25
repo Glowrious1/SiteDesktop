@@ -128,10 +128,6 @@ body {
   margin-top: 40px;
 }
 
-.categoria {
-  text-align: center;
-  transition: transform 0.3s, filter 0.3s;
-}
 
 .categoria img {
   width: 180px;
@@ -149,10 +145,6 @@ body {
   letter-spacing: 1px;
 }
 
-.categoria:hover {
-  transform: scale(1.05);
-  filter: brightness(1.1);
-}
 
 /* ======== PRODUTOS ======== */
 .produtos {

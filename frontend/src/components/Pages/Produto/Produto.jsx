@@ -1,11 +1,20 @@
 import { Heart, ShoppingCart, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Avaliacao from "../../Avaliacao.jsx";
+import produtos from "../../../data/produtos.js";
 import "./Produto.css";
 
 export default function Produto() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const produto = produtos.find((p) => p.id === Number(id));
+
+  if (!produto) return <h2>Produto não encontrado...</h2>;
+
   return (
     <div className="produto-pagina">
+      
       {/* HEADER */}
       <header className="header">
         <div className="logo">
@@ -14,14 +23,9 @@ export default function Produto() {
 
         <nav>
           <ul className="menu">
-            <li>
-            <Link to="/">INÍCIO</Link>
-            </li>
-              <li>
-              <Link to="/produtos" >PRODUTOS</Link>
-            </li>
-            <li>DUVIDAS</li>
-            <li>CONTATO</li>
+            <li><Link to="/">INÍCIO</Link></li>
+            <li><Link to="/produtos">PRODUTOS</Link></li>
+            <li><Link to="/duvidas">DÚVIDAS</Link></li>
           </ul>
         </nav>
 
@@ -29,60 +33,79 @@ export default function Produto() {
           <Link to="/favoritos">
             <Heart size={22} strokeWidth={1.5} />
           </Link>
-          <ShoppingCart size={22} strokeWidth={1.5} />
+
+          <Link to="/sacola">
+            <ShoppingCart size={22} strokeWidth={1.5} />
+          </Link>
+
           <Link to="/login">
-          <User size={22} strokeWidth={1.5} />
+            <User size={22} strokeWidth={1.5} />
           </Link>
         </div>
       </header>
 
+      {/* BOTÃO DE VOLTAR */}
+      <button className="btn-voltar-produto" onClick={() => navigate(-1)}>
+        ⟵ Voltar
+      </button>
+
       {/* CONTEÚDO PRINCIPAL */}
       <main className="produto-container">
         <div className="produto-principal">
+          
+          {/* IMAGEM */}
           <div className="produto-imagem">
-            <img src="/blush.png" alt="Produto" />
+            <img src={produto.imagem} alt={produto.nome} />
           </div>
-            
+
+          {/* INFORMAÇÕES */}
           <div className="produto-info">
-            <h2>Creme facial para rosto que limpa e purifica</h2>
-            <p className="preco">R$ 130,00</p>
-            <Avaliacao rating={4} />
+            <h2>{produto.nome}</h2>
+
+            <p className="preco">R$ {produto.preco}</p>
+
+            <Avaliacao rating={produto.avaliacao} />
+
             <p className="estoque">(em até 3x sem juros)</p>
 
+            {/* QUANTIDADE */}
             <div className="quantidade-container">
               <button>-</button>
               <span>1</span>
               <button>+</button>
             </div>
 
-            <button className="btn-adicionar">Adicionar a Sacola</button>
-            <p className="categoria">Categoria: Skincare</p>
+            {/* BOTÃO ADICIONAR */}
+            <button className="btn-adicionar" onClick={() => navigate("/sacola")}>
+              Adicionar à Sacola
+            </button>
+
+            <p className="categoria">Categoria: {produto.categoria || "Skincare"}</p>
           </div>
         </div>
 
         {/* DESCRIÇÃO */}
         <section className="descricao">
           <h3>Descrição</h3>
-          <p>
-            Descubra o toque de cor ideal para realçar sua beleza natural. O
-            Blush Cremoso Lustrous possui uma textura leve, macia e sedosa que
-            desliza facilmente sobre a pele, proporcionando um acabamento
-            luminoso e uniforme. Sua fórmula é fácil de espalhar e permite
-            controlar a intensidade desejada — do look natural ao mais marcante.
-          </p>
+          <p>{produto.descricao || "Esse produto é maravilhoso para cuidados diários da pele."}</p>
         </section>
 
         {/* OUTROS PRODUTOS */}
         <section className="outros-produtos">
           <h3>Outros Produtos</h3>
           <div className="lista-produtos2">
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="card2" style={{ cursor: "pointer" }}>
-                <img src="/blush.png" alt="produto" />
-                <h3>Maquiagem sol (5g)</h3>
-                <Avaliacao rating={4} />
-                <p>R$ 120,00</p>
-                <button>Adicione à bolsa</button>
+            {produtos.slice(0, 4).map((item) => (
+              <div
+                key={item.id}
+                className="card2"
+                onClick={() => navigate(`/produto/${item.id}`)}
+                style={{ cursor: "pointer" }}
+              >
+                <img src={item.imagem} alt={item.nome} />
+                <h3>{item.nome}</h3>
+                <Avaliacao rating={item.avaliacao} />
+                <p>R$ {item.preco}</p>
+                <button>Adicionar à bolsa</button>
               </div>
             ))}
           </div>

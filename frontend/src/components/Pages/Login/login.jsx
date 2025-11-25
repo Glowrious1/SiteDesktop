@@ -17,9 +17,11 @@ function Login() {
     }
 
     try {
+
       const response = await axios.post("http://localhost:3001/login", {
         email: email,
         senha: senha
+ 
       });
 
       const data = response.data;
@@ -96,4 +98,4 @@ function Login() {
 
 export default Login;
 
-git status
+
