@@ -114,3 +114,56 @@ app.post("/login", (req, res) => {
         });
     });
 });
+
+// ROTA PARA ADICIONAR FUNCIONÁRIO (SINGULAR)
+app.post("/Funcionario", (req, res) => {
+  const { Nome, Email, Senha } = req.body;
+
+  if (!Nome || !Email || !Senha) {
+    return res.status(400).json({ error: "Preencha todos os campos." });
+  }
+
+  const sql = "INSERT INTO Funcionario (Nome, Email, Senha) VALUES (?, ?, ?)";
+
+  db.query(sql, [Nome, Email, Senha], (err, result) => {
+    if (err) {
+      console.error("Erro ao inserir funcionário:", err);
+      return res.status(500).json({ error: "Erro ao adicionar funcionário." });
+    }
+
+    return res.status(201).json({
+      message: "Funcionário cadastrado com sucesso!",
+      id: result.insertId
+    });
+  });
+});
+
+// ROTA PARA LISTAR FUNCIONÁRIOS
+app.get("/Funcionario", (req, res) => {
+  const sql = "SELECT * FROM Funcionario";
+
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error("Erro ao buscar funcionários:", err);
+      return res.status(500).json({ error: "Erro ao consultar funcionários." });
+    }
+
+    return res.json(result);
+  });
+});
+
+// ROTA PARA EXCLUIR FUNCIONÁRIO
+app.delete("/Funcionario/:id", (req, res) => {
+  const { id } = req.params;
+
+  const sql = "DELETE FROM Funcionario WHERE IdFun = ?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("Erro ao excluir funcionário:", err);
+      return res.status(500).json({ error: "Erro ao excluir funcionário." });
+    }
+
+    return res.json({ message: "Funcionário excluído com sucesso!" });
+  });
+});
