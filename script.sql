@@ -45,15 +45,15 @@ CPF varchar(14) unique not null, -- Estava 12 mudei pra 14 pq ia dar erro.
 Senha varchar(250),
 CepCli int -- CEP vai no endereço, da pra fazer integração com API legal, bem facil de fazer
 );
-
+*/
 create table Funcionario (
 IdFun int primary key auto_increment,
 Nome varchar(200) not null,
 Email varchar(150) not null,
 Senha varchar(250) not null
 );
-*/
 
+SELECT * FROM Funcionario;
 
 create table Bairro (
 IdBairro int primary key auto_increment,
