@@ -7,6 +7,7 @@ const produtos = [
     imagem: "/blush.png",
     avaliacao: 4,
     categoria: "Maquiagem",
+    home: true, 
     descricao: "Um tom pêssego-terroso sofisticado que ilumina naturalmente a pele. Sua textura ultrafina desliza com suavidade, garantindo um esfumado impecável e acabamento aveludado. Desenvolvido para realçar a beleza com elegância, proporciona um rubor saudável e duradouro, perfeito para qualquer ocasião. A escolha ideal para quem busca um toque de cor refinado e irresistível no dia a dia."
   },
   {
@@ -53,6 +54,7 @@ const produtos = [
   imagem: "/gloss3.png",
   avaliacao: 5,
   categoria: "Maquiagem",
+  home: true, 
   descricao: "Pink Velvet é a combinação ideal entre feminilidade e brilho. Seu tom rosa vibrante, delicado e moderno, oferece um acabamento luminoso que deixa os lábios com aspecto macio, volumoso e irresistível. Com textura confortável e não pegajosa, o gloss desliza facilmente, entregando cor suave com brilho elegante na medida certa. Pink Velvet é perfeito para quem ama um visual jovial, encantador e ao mesmo tempo sofisticado — um gloss que encanta à primeira aplicação."
 },
 {
@@ -90,6 +92,7 @@ const produtos = [
   imagem: "/base2.png",
   avaliacao: 5,
   categoria: "Maquiagem",
+  home: true, 
   descricao: "A base 20W – Golden Radiance realça a beleza das peles claras com fundo quente, trazendo aquele toque dourado irresistível. Sua fórmula luxuosa ilumina suavemente, proporcionando viço sofisticado e uniformidade impecável. Com acabamento radiante e textura confortável, essa base valoriza a luminosidade natural da pele, entregando um visual refinado, quente e cheio de personalidade. A escolha perfeita para quem ama uma pele com brilho elegante e acabamento profissional."
 },
 {
@@ -126,6 +129,7 @@ const produtos = [
   imagem: "/base6.png",
   avaliacao: 5,
   categoria: "Maquiagem",
+  home: true, 
   descricao: "A base 50C – Mocha Deep foi formulada para valorizar a beleza das peles profundas com fundo frio, oferecendo intensidade, profundidade e elegância. Sua textura rica e confortável proporciona cobertura uniforme, garantindo uma pele impecável sem oxidar ou perder o viço natural. Com acabamento profissional e luxuoso, ela realça cada traço com suavidade e precisão, entregando um visual poderoso, refinado e verdadeiramente marcante."
 },
 
@@ -137,6 +141,7 @@ const produtos = [
     imagem: "/Shampoo.png",
     avaliacao: 4,
     categoria: "Cabelo",
+    home: true, 
     descricao: "Hidratação suave e maciez imediata para fios radiantes."
 },
 
@@ -157,8 +162,9 @@ const produtos = [
     imagem: "/Capilar.png",
     avaliacao: 4,
     categoria: "Cabelo",
-    descricao: "Hidratação profunda e nutrição imediata para fios mais fortes e macios."
-}
+    home: true, 
+    descricao: "Hidratação profunda e nutrição imediata."
+},
 
 
 ];

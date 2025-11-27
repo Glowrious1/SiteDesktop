@@ -1,13 +1,10 @@
-/* ====== LAYOUT GERAL ====== */
+
 .layout {
   display: flex;
   min-height: 100vh;
 }
 
-/* ====== SIDEBAR JÁ EXISTE — NÃO ALTEREI ====== */
 
-
-/* ====== CONTEÚDO PRINCIPAL ====== */
 .home1-content {
   flex: 1;
   padding: 40px 0;
@@ -22,8 +19,8 @@
 /* ====== BOX DO FORMULÁRIO ====== */
 .form-func-box {
   background: #b79c8c;
-  width: 75%;
-  margin: 20px auto 0 auto;
+  width: 50%;
+  margin: 70px auto 0 auto;
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
@@ -62,8 +59,6 @@
 
 /* ====== FORMULÁRIO ====== */
 .form-func {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 18px 25px;
 }
 
@@ -91,6 +86,11 @@
   font-size: 14px;
   color: #3b2f2f;
   transition: 0.2s;
+}
+
+form {
+  width: 70%;
+  margin-left: 7rem;
 }
 
 .form-group input:focus {

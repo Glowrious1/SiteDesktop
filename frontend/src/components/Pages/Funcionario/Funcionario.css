@@ -21,9 +21,6 @@
   flex: 1; /* Faz o conteúdo empurrar o footer para baixo */
 }
 
-.footer {
-  margin-top: auto; /* Mantém o footer só no final da página */
-}
 
 
 .func-box-home {
@@ -112,25 +109,8 @@
   background: #f0e7e0;
 }
 
-.btns {
-  display: flex;
-  gap: 8px;
-}
 
-.btns button {
-  background: #4b3f38;
-  color: white;
-  border: none;
-  padding: 6px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.btns button:hover {
-  opacity: 0.8;
-}
-
-.edit {
+.btn-edit {
   background: #5c7c5c;
 }
 
@@ -138,6 +118,10 @@
   background: #6b5c7f;
 }
 
-.delete {
+.btn-delete {
   background: #a84343;
+}
+
+.btn-edit, .btn-delete {
+  margin-left: 1rem;
 }

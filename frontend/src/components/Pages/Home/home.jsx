@@ -2,11 +2,18 @@ import { ShoppingCart, Heart, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Avaliacao from "../../Avaliacao.jsx";
+import produtos from "../../../data/produtos.js";
 import "./Home.css";
 
 
 export default function Home() {
   const navigate = useNavigate();
+
+// ---- FILTRAR APENAS PRODUTOS QUE DEVEM APARECER NA HOME ----
+const produtosHome = produtos
+  .filter((p) => p.home === true) // só os que têm home:true
+  .slice(0, 6); // pega apenas os 6 primeiros
+
 
     const irParaProduto = () => {
       navigate("/produto");
@@ -65,56 +72,22 @@ export default function Home() {
 
       {/* PRODUTOS */}
       <section className="produtos">
-       <h2>Preferidos em Skincare</h2>
+       <h2>Alguns Produtos</h2>
         <div className="lista-produtos">
-          <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-            <img src="/CremeFacila2.jpg" alt="produto" />
-            <h3>Creme Facial 5g</h3>
-            <Avaliacao rating={2} />
-            <p>R$ 120,00</p>
-            <button>Adicione a bolsa</button>
-          </div>
-
-          <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-            <img src="/Prime1.png" alt="produto" />
-            <h3>Prime </h3>
-            <Avaliacao rating={2} />
-            <p>R$ 120,00</p>
-            <button>Adicione a bolsa</button>
-          </div>
-
-            <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-            <img src="/blush.png" alt="produto" />
-            <h3>Maquiagem sol (5g)</h3>
-            <Avaliacao rating={2} />
-            <p>R$ 120,00</p>
-            <button>Adicione a bolsa</button>
-          </div>
-
-           <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-            <img src="/blush.png" alt="produto" />
-            <h3>Maquiagem sol (5g)</h3>
-            <Avaliacao rating={5} />
-            <p>R$ 120,00</p>
-            <button>Adicione a bolsa</button>
-          </div>
-
-            <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-            <img src="/blush.png" alt="produto" />
-            <h3>Maquiagem sol (5g)</h3>
-            <Avaliacao rating={2} />
-            <p>R$ 120,00</p>
-            <button>Adicione a bolsa</button>
-          </div>
-
-           <div className="card" onClick={irParaProduto} style={{ cursor: "pointer" }}>
-            <img src="/blush.png" alt="produto" />
-            <h3>Maquiagem sol (5g)</h3>
-            <Avaliacao rating={2} />
-            <p>R$ 120,00</p>
-            <button>Adicione a bolsa</button>
-          </div>
-          
+        {produtosHome.map((item) => (
+            <div
+              key={item.id}
+              className="card"
+              onClick={() => irParaProduto(item.id)}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={item.imagem} alt={item.nome} />
+              <h3>{item.nome}</h3>
+              <Avaliacao rating={item.avaliacao} />
+              <p>R$ {item.preco}</p>
+              <button>Adicionar à bolsa</button>
+            </div>
+          ))}
         </div>
       </section>
 

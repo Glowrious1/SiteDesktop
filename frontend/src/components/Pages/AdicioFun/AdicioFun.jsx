@@ -90,7 +90,7 @@ export default function AdicioFun() {
       </aside>
 
       {/* CONTEÚDO */}
-      <main className="home1-content">
+      <main className="home-content">
 
         <div className="form-func-box">
 
