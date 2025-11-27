@@ -5,22 +5,19 @@ use dbilumina;
 
 -- Criação de tabelas
 
-
-
-
-
 create table Usuario (
 IdUser int primary key auto_increment ,
 Nome varchar(155) ,
 Foto varchar(255), 
 Email varchar(155) ,
 Senha varchar(150) ,
-Sexo enum('Masculino','Feminino','NERF'),
+Sexo enum('Masculino','Feminino','Outro'),
 CPF varchar(14) not null,
 Role enum('Admin','Cliente','Funcionario'),
-CEP varchar(9),
+IdEndereco  int null,
 Ativo char(1)  default '1'
 );
+
 
 INSERT INTO Usuario (Nome, Email, Senha, CPF, Role)
 VALUES ('Administrador Master', 'admin@site.com', 'admin123', '000.000.000-00', 'Admin');
@@ -79,7 +76,7 @@ complemento varchar(155),
 IdBairro int not null,
 IdCidade int not null,
 IdEstado int not null,
-IdUser int not null
+IdUser int  null
 );
 
 create table Entrega(
@@ -96,6 +93,7 @@ create table Produto(
 CodigoBarras bigint primary key,
 NomeProd varchar(200) not null,
 qtd int,
+foto varchar(255),
 Genero Enum('Masculino','Feminino','Unissex'),
 Descricao varchar(250),
 ValorUnitario decimal(9,2)
@@ -155,6 +153,7 @@ IdEntrega int
  DataEmissao date not null
 );
  
+
 ALTER TABLE Produto 
 ADD COLUMN codCategoria INT,
 ADD COLUMN codTipoProduto INT,
@@ -167,19 +166,18 @@ ADD CONSTRAINT fk_Produto_TipoProduto FOREIGN KEY (codTipoProduto) REFERENCES ti
  Alter table Endereco
  add Constraint fk_IdBairro_Endereco foreign key (IdBairro) references Bairro(IdBairro),
  add Constraint fk_IdCidade_Endereco foreign key (IdCidade) references Cidade(IdCidade),
- add Constraint fk_IdEstado_Endereco foreign key (IdEstado) references Estado(IDUF);
+ add Constraint fk_IdEstado_Endereco foreign key (IdEstado) references Estado(IDUF),
+ add Constraint fk_IdUser_Endereco foreign key (IdUser) References Usuario(IdUser) on delete set null;
  
- alter table Usuario add constraint fk_CEP_Usuario foreign key(CEP) references Endereco(Cep);
+ alter table Usuario add constraint fk_IdEndereco_Usuario foreign key(IdEndereco) references Endereco(IdEndereco);
  
  alter table VendaProduto add constraint fk_Codigobarras_Vendaproduto foreign key(CodigoBarras) references Produto(CodigoBarras),
  add constraint fk_IdVenda_Vendaproduto foreign key (IdVenda) references Venda(IdVenda);
  
  alter table Venda 
- add Constraint fk_IdCliente_Venda foreign key (IdClient) references Usuario(IdUser),
+ add Constraint fk_IdUser_Venda foreign key (IdUser) references Usuario(IdUser),
  add Constraint fk_NF_Venda foreign key (NF) references NotaFiscal(NF),
- add Constraint fk_IdEntrega_Venda foreign key (IdEntrega) references Entrega(IdEntrega),
- add Constraint fk_IdFun_Venda foreign key (IdFun) references Funcionario(IdFun);
- 
+ add Constraint fk_IdEntrega_Venda foreign key (IdEntrega) references Entrega(IdEntrega);
  
  
  -- Criando as Procedures
@@ -342,7 +340,7 @@ IdUser int not null
    
    delimiter ;
  
- call insertEndereco ('06340250','Rua Do Jão','Lapa','Morro Salgado','sp');
+ call insertEndereco ('06340250','Rua Do Jão','12','A','Lapa','Morro Salgado','sp');
  delimiter $$
  create procedure InsertFuncionario(
  in vNome varchar(250),
@@ -392,7 +390,7 @@ delimiter $$
 create procedure selectUsuario()
 begin
  
-select IdUser, Nome,Email,Senha,Sexo,CPF,Role,CEP from Usuario order by Nome; 
+select IdUser, Nome,Email,Senha,Sexo,CPF,Role from Usuario order by Nome; 
 end $$
 
 call selectUsuario;
@@ -436,7 +434,8 @@ begin
     p.qtd,
     p.Descricao,
     p.ValorUnitario,
-    p.Role,
+    p.Foto,
+    p.Genero,
     c.Categoria as NomeCategoria,
     t.TipoProduto as NomeTipoProduto
   from Produto p
@@ -455,7 +454,8 @@ create  procedure updateProduto(
   in vValor decimal(9,2),
   in vRole enum('Masculino','Feminino','Unissex'),
   in vCodCategoria int,
-  in vCodTipoProduto int
+  in vCodTipoProduto int,
+   in vFoto varchar(255)
 )
 begin
   if exists(select CodigoBarras from Produto where CodigoBarras = vCodigo) then
@@ -465,7 +465,8 @@ begin
         qtd = vQtd,
         Descricao = vDesc,
         ValorUnitario = vValor,
-        Role = vRole,
+        Foto = vFoto,
+        Genero = vRole,
         codCategoria = vCodCategoria,
         codTipoProduto = vCodTipoProduto
     where CodigoBarras = vCodigo;
@@ -492,7 +493,7 @@ delimiter $$
 create  procedure selectProdutosPorCategoria(in vCodCategoria int)
 begin
   select 
-    p.CodigoBarras, p.NomeProd, p.qtd, p.Descricao, p.ValorUnitario, p.Role,
+    p.CodigoBarras, p.NomeProd, p.qtd, p.Descricao, p.ValorUnitario, p.Foto, p.Genero,
     c.Categoria, t.TipoProduto
   from Produto p
   join Categoria c on p.codCategoria = c.codCategoria
@@ -506,7 +507,7 @@ delimiter $$
 create  procedure selectProdutosPorTipo(in vCodTipoProduto int)
 begin
   select 
-    p.CodigoBarras, p.NomeProd, p.qtd, p.Descricao, p.ValorUnitario, p.Role,
+    p.CodigoBarras, p.NomeProd, p.qtd, p.Descricao, p.ValorUnitario, p.Foto, p.Genero,
     c.Categoria, t.TipoProduto
   from Produto p
   join Categoria c on p.codCategoria = c.codCategoria
@@ -525,6 +526,7 @@ create  procedure insertProduto(
   in vCodigoBarras bigint,
   in vNomeProd varchar(200),
   in vQtd int,
+  in vFoto varchar(255),
   in vDescricao varchar(250),
   in vValorUnitario decimal(7,2),
   in vRole enum('Masculino','Feminino','Unissex'),
@@ -538,9 +540,9 @@ begin
        and exists(select codTipoProduto from tipoProduto where codTipoProduto = vCodTipoProduto) then
     
       insert into Produto 
-      (CodigoBarras, NomeProd, qtd, Descricao, ValorUnitario, Role, codCategoria, codTipoProduto)
+      (CodigoBarras, NomeProd, qtd, Descricao, ValorUnitario, Genero, codCategoria, codTipoProduto,Foto)
       values 
-      (vCodigoBarras, vNomeProd, vQtd, vDescricao, vValorUnitario, vRole, vCodCategoria, vCodTipoProduto);
+      (vCodigoBarras, vNomeProd, vQtd, vDescricao, vValorUnitario, vRole, vCodCategoria, vCodTipoProduto,vFoto);
       
     else 
       select 'Categoria ou Tipo de Produto inválido' as Mensagem;
@@ -578,7 +580,7 @@ delimiter ;
 delimiter $$
 create procedure selectCarrinho(in vIdUser int)
 begin
-  select c.IdCarrinho, p.NomeProd, c.Qtd, p.ValorUnitario, (p.ValorUnitario * c.Qtd) as Subtotal
+  select c.IdCarrinho, p.NomeProd,p.Foto, c.Qtd, p.ValorUnitario, (p.ValorUnitario * c.Qtd) as Subtotal
   from Carrinho c
   join Produto p on c.IdProd = p.CodigoBarras
   where c.IdUser = vIdUser;
