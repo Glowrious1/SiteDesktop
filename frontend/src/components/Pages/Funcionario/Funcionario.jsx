@@ -65,7 +65,7 @@ export default function Funcionario() {
             <Users size={26} strokeWidth={1.7} />
           </button>
 
-          <button className="menu-btn" onClick={() => navigate("/perfil")}>
+          <button className="menu-btn" onClick={() => navigate("/Cliente")}>
             <User size={26} strokeWidth={1.7} />
           </button>
 
@@ -124,12 +124,11 @@ export default function Funcionario() {
                   <td>{f.Nome}</td>
                   <td>{f.Email}</td>
                   <td>
-                    <button className="btn-edit">Editar</button>
-                    <button 
-                        className="btn-delete"
-                        onClick={() => excluirFuncionario(f.IdFun)}
-                        >
-                        Excluir
+                  <button 
+                    className="btn-edit" onClick={() => navigate(`/EditarFun/${f.IdFun}`)}>
+                    Editar
+                  </button>
+                  <button className="btn-delete" onClick={() => excluirFuncionario(f.IdFun)}>Excluir
                      </button>
 
                   </td>

@@ -12,7 +12,10 @@ import Login from "./components/Pages/Login/Login.jsx";
 import Funcionario from "./components/Pages/Funcionario/Funcionario.jsx";
 import AdicioFun from "./components/Pages/AdicioFun/AdicioFun.jsx";
 import Carrinho from "./components/Pages/Carrinho/Carrinho.jsx";
-
+import EditarFun from "./components/Pages/EditarFun/EditarFun.jsx";
+import Cliente from "./components/Pages/Cliente/Cliente.jsx";
+import AdicioCli from "./components/Pages/AdicioCli/AdicioCli.jsx"; 
+import EditarCli from "./components/Pages/EditarCli/EditarCli.jsx";
 
 function App() {
   return (
@@ -30,6 +33,10 @@ function App() {
       <Route path="/Funcionario" element={<Funcionario />} />
       <Route path="/AdicioFun" element={<AdicioFun />} />
       <Route path="/carrinho" element={<Carrinho />} />
+      <Route path="/EditarFun/:id" element={<EditarFun />} />
+      <Route path="/Cliente" element={<Cliente />} />
+      <Route path="/AdicioCli" element={<AdicioCli />} />
+      <Route path="/EditarCli/:id" element={<EditarCli />} />
     </Routes>
   );
 }

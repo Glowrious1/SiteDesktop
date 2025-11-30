@@ -39,7 +39,7 @@ export default function FuncionarioHome() {
             <Users size={26} strokeWidth={1.7} />
           </button>
 
-          <button className="menu-btn">
+          <button className="menu-btn" onClick={() => navigate("/Cliente")}>
             <User size={26} strokeWidth={1.7} />
           </button>
 
