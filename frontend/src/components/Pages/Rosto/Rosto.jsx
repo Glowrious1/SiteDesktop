@@ -1,11 +1,21 @@
 import { ShoppingCart, Heart, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Avaliacao from "../../Avaliacao.jsx";
-import produtos from "../../../data/produtos.js";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import "./Rosto.css";
 
 export default function Rosto() {
   const navigate = useNavigate();
+
+  const [produtos, setProdutos] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/produtos")
+      .then((res) => setProdutos(res.data))
+      .catch((err) => console.error("Erro ao buscar produtos:", err));
+  }, []);
 
   // ---- FILTRAR APENAS OS PRODUTOS DE ROSTO ----
   const produtosRosto = produtos.filter((p) => p.categoria === "Maquiagem");
@@ -22,16 +32,19 @@ const adicionarCarrinho = async (item) => {
         IdUser: userId,
         IdProd: item.id,
         Qtd: 1,
-        ValorUnitario: Number(item.preco.replace(",", ".")), // transforma "40,00" em 40.00
+        ValorUnitario: Number(String(item.preco).replace(",", ".")),
       }),
     });
 
     const data = await response.json();
     console.log("Adicionado:", data);
 
-    navigate("/carrinho"); // ir para a sacola
+    // notify other components (Carrinho) to refresh
+    window.dispatchEvent(new CustomEvent('cart-updated', { detail: { item: data.item } }));
+    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Produto adicionado ao carrinho' } }));
   } catch (error) {
     console.log("Erro ao adicionar:", error);
+    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Erro ao adicionar ao carrinho' } }));
   }
 };
 
@@ -67,7 +80,7 @@ const adicionarCarrinho = async (item) => {
             <Heart size={22} strokeWidth={1.5} />
           </Link>
 
-          <Link to="/sacola">
+          <Link to="/carrinho">
             <ShoppingCart size={22} strokeWidth={1.5} />
           </Link>
 

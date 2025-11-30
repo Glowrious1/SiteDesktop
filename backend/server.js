@@ -1,17 +1,19 @@
 // Declarando as dependencias que serão utilizadas no projeto
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
+const produtos = require('./produtos');
 
 // App recebe a função do express para realizar as operações
 const app = express()
 
-//Declanrando o banco de dados
+//Declanrando o banco de dados (usa variáveis de ambiente quando disponíveis)
 const db = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "2312",
-    database: "dbilumina",
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "12345678",
+    database: process.env.DB_NAME || "dbilumina",
 });
 //Usando o  express para converte os dados em JSON
 app.use(express.json()); // converte todo hmtl em  json
@@ -20,6 +22,85 @@ app.use(express.json()); // converte todo hmtl em  json
 app.use(cors());
 //declarando  a porta do servidor
 const port = 3001;
+
+// Endpoints para produtos: preferencialmente via banco, com fallback para dados estáticos
+app.get('/produtos', (req, res) => {
+    const q = `
+        SELECT p.CodigoBarras as id,
+               p.NomeProd as nome,
+               p.ValorUnitario as preco,
+               p.foto as imagem,
+               p.Descricao as descricao,
+               c.Categoria as categoria
+        FROM Produto p
+        LEFT JOIN Categoria c ON p.codCategoria = c.codCategoria
+    `;
+
+    db.query(q, (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar produtos no DB:', err);
+            if (Array.isArray(produtos) && produtos.length > 0) {
+                return res.json(produtos);
+            }
+            return res.status(500).json({ error: 'Erro ao buscar produtos' });
+        }
+
+        const mapped = results.map((r) => ({
+            id: r.id,
+            nome: r.nome,
+            preco: (r.preco === null || r.preco === undefined) ? null : (typeof r.preco === 'number' ? r.preco.toFixed(2).replace('.', ',') : String(r.preco)),
+            imagem: r.imagem || '/placeholder.png',
+            avaliacao: r.avaliacao || 0,
+            categoria: r.categoria || null,
+            descricao: r.descricao || ''
+        }));
+
+        res.json(mapped);
+    });
+});
+
+app.get('/produto/:id', (req, res) => {
+    const id = req.params.id;
+    const q = `
+        SELECT p.CodigoBarras as id,
+               p.NomeProd as nome,
+               p.ValorUnitario as preco,
+               p.foto as imagem,
+               p.Descricao as descricao,
+               c.Categoria as categoria
+        FROM Produto p
+        LEFT JOIN Categoria c ON p.codCategoria = c.codCategoria
+        WHERE p.CodigoBarras = ?
+    `;
+
+    db.query(q, [id], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar produto no DB:', err);
+            if (Array.isArray(produtos) && produtos.length > 0) {
+                const prod = produtos.find((p) => String(p.id) === String(id));
+                if (prod) return res.json(prod);
+            }
+            return res.status(500).json({ error: 'Erro ao buscar produto' });
+        }
+
+        if (!results || results.length === 0) {
+            return res.status(404).json({ error: 'Produto não encontrado' });
+        }
+
+        const r = results[0];
+        const mapped = {
+            id: r.id,
+            nome: r.nome,
+            preco: (r.preco === null || r.preco === undefined) ? null : (typeof r.preco === 'number' ? r.preco.toFixed(2).replace('.', ',') : String(r.preco)),
+            imagem: r.imagem || '/placeholder.png',
+            avaliacao: r.avaliacao || 0,
+            categoria: r.categoria || null,
+            descricao: r.descricao || ''
+        };
+
+        return res.json(mapped);
+    });
+});
 
 // CARRINHO 
 
@@ -31,10 +112,10 @@ app.get("/carrinho/:idUser", (req, res) => {
             c.Qtd,
             c.ValorUnitario,
             c.ValorTotal,
-            p.nome,
-            p.imagem
+            p.NomeProd as nome,
+            p.foto as imagem
         FROM Carrinho c
-        INNER JOIN Produtos p ON p.id = c.IdProd
+        LEFT JOIN Produto p ON p.CodigoBarras = c.IdProd
         WHERE c.IdUser = ?;
     `;
 
@@ -88,15 +169,7 @@ app.delete("/carrinho/:id", (req, res) => {
 });
 
 
-app.get("/carrinho/:id", (req, res) => {
-    const id = req.params.id;
-
-    const sql = "SELECT * FROM carrinho WHERE usuario_id = ?";
-    db.query(sql, [id], (err, result) => {
-        if (err) return res.json(err);
-        return res.json(result);
-    });
-});
+// NOTE: removed duplicate/legacy route that used a different schema (`usuario_id`)
 
 
 // CARRINHO ADICIONAR
@@ -119,8 +192,23 @@ app.post("/carrinho/addItem", (req, res) => {
             console.log("Erro SQL:", err);
             return res.status(500).json(err);
         }
+        // Buscar o registro inserido e retornar ao cliente
+        const insertedId = result.insertId;
+        const qGet = `
+            SELECT c.IdCarrinho, c.IdProd, c.Qtd, c.ValorUnitario, c.ValorTotal, p.NomeProd as nome, p.foto as imagem
+            FROM Carrinho c
+            LEFT JOIN Produto p ON p.CodigoBarras = c.IdProd
+            WHERE c.IdCarrinho = ?
+        `;
 
-        res.json({ message: "Item adicionado!", id: result.insertId });
+        db.query(qGet, [insertedId], (err2, rows) => {
+            if (err2) {
+                console.error('Erro ao buscar item inserido:', err2);
+                return res.status(201).json({ message: 'Item adicionado!', id: insertedId });
+            }
+
+            return res.status(201).json({ message: 'Item adicionado!', item: rows[0] || null });
+        });
     });
 });
 

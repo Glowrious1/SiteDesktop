@@ -2,22 +2,29 @@ import { ShoppingCart, Heart, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Avaliacao from "../../Avaliacao.jsx";
-import produtos from "../../../data/produtos.js";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import "./Home.css";
 
 
 export default function Home() {
   const navigate = useNavigate();
 
+const [produtos, setProdutos] = useState([]);
+
+useEffect(() => {
+  axios
+    .get("http://localhost:3001/produtos")
+    .then((res) => setProdutos(res.data))
+    .catch((err) => console.error("Erro ao buscar produtos:", err));
+}, []);
+
 // ---- FILTRAR APENAS PRODUTOS QUE DEVEM APARECER NA HOME ----
-const produtosHome = produtos
-  .filter((p) => p.home === true) 
-  .slice(0, 6); 
+const produtosHome = produtos.filter((p) => p.home === true).slice(0, 6);
 
-
-    const irParaProduto = () => {
-      navigate("/produto");
-    };
+const irParaProduto = (id) => {
+  navigate(`/produto/${id}`);
+};
 
   return (
     <div className="app">
@@ -66,7 +73,7 @@ const produtosHome = produtos
             cuidados diários. <br />
             Beleza com resultado de clínica, direto na sua casa.
           </p>
-          <button>Saiba-Mais</button>
+            <button onClick={() => navigate('/carrinho')}>Saiba-Mais</button>
         </div>
       </section>
 

@@ -1,16 +1,31 @@
 import { Heart, ShoppingCart, User } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Avaliacao from "../../Avaliacao.jsx";
-import produtos from "../../../data/produtos.js";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import "./Produto.css";
 
 export default function Produto() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const produto = produtos.find((p) => p.id === Number(id));
+  const [produto, setProduto] = useState(null);
+  const [outros, setOutros] = useState([]);
 
-  if (!produto) return <h2>Produto não encontrado...</h2>;
+  useEffect(() => {
+    if (!id) return;
+    axios
+      .get(`http://localhost:3001/produto/${id}`)
+      .then((res) => setProduto(res.data))
+      .catch(() => setProduto(null));
+
+    axios
+      .get("http://localhost:3001/produtos")
+      .then((res) => setOutros(res.data))
+      .catch(() => setOutros([]));
+  }, [id]);
+
+  if (produto === null) return <h2>Produto não encontrado...</h2>;
 
   return (
     <div className="produto-pagina">
@@ -34,7 +49,7 @@ export default function Produto() {
             <Heart size={22} strokeWidth={1.5} />
           </Link>
 
-          <Link to="/sacola">
+          <Link to="/carrinho">
             <ShoppingCart size={22} strokeWidth={1.5} />
           </Link>
 
@@ -76,7 +91,26 @@ export default function Produto() {
             </div>
 
             {/* BOTÃO ADICIONAR */}
-            <button className="btn-adicionar" onClick={() => navigate("/sacola")}>
+            <button className="btn-adicionar" onClick={async () => {
+              try {
+                const resp = await fetch('http://localhost:3001/carrinho/addItem', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    IdUser: 1,
+                    IdProd: produto.id,
+                    Qtd: 1,
+                    ValorUnitario: Number(String(produto.preco).replace(',', '.'))
+                  })
+                });
+                const data = await resp.json();
+                window.dispatchEvent(new CustomEvent('cart-updated', { detail: { item: data.item } }));
+                window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Produto adicionado ao carrinho' } }));
+              } catch (err) {
+                console.error(err);
+                window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Erro ao adicionar ao carrinho' } }));
+              }
+            }}>
               Adicionar à Sacola
             </button>
 
@@ -94,7 +128,7 @@ export default function Produto() {
         <section className="outros-produtos">
           <h3>Outros Produtos</h3>
           <div className="lista-produtos2">
-            {produtos.slice(0, 4).map((item) => (
+            {outros.slice(0, 4).map((item) => (
               <div
                 key={item.id}
                 className="card2"
@@ -106,9 +140,27 @@ export default function Produto() {
                 <Avaliacao rating={item.avaliacao} />
                 <p>R$ {item.preco}</p>
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation(); 
-                    navigate("/sacola");
+                  onClick={async (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    try {
+                      const resp = await fetch('http://localhost:3001/carrinho/addItem', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          IdUser: 1,
+                          IdProd: item.id,
+                          Qtd: 1,
+                          ValorUnitario: Number(String(item.preco).replace(',', '.'))
+                        })
+                      });
+                      const data = await resp.json();
+                      window.dispatchEvent(new CustomEvent('cart-updated', { detail: { item: data.item } }));
+                      window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Produto adicionado ao carrinho' } }));
+                    } catch (err) {
+                      console.error(err);
+                      window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Erro ao adicionar ao carrinho' } }));
+                    }
                   }}>
                   Adicionar ao Carrinho
                 </button>
