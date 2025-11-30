@@ -105,7 +105,13 @@ export default function Produto() {
                 <h3>{item.nome}</h3>
                 <Avaliacao rating={item.avaliacao} />
                 <p>R$ {item.preco}</p>
-                <button>Adicionar à bolsa</button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); 
+                    navigate("/sacola");
+                  }}>
+                  Adicionar ao Carrinho
+                </button>
               </div>
             ))}
           </div>

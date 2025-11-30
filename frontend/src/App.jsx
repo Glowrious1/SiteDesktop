@@ -11,6 +11,7 @@ import FuncionarioHome from "./components/Pages/FuncionarioHome/FunHome.jsx";
 import Login from "./components/Pages/Login/Login.jsx";
 import Funcionario from "./components/Pages/Funcionario/Funcionario.jsx";
 import AdicioFun from "./components/Pages/AdicioFun/AdicioFun.jsx";
+import Carrinho from "./components/Pages/Carrinho/Carrinho.jsx";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <Route path="/FuncionarioHome" element={<FuncionarioHome />} />
       <Route path="/Funcionario" element={<Funcionario />} />
       <Route path="/AdicioFun" element={<AdicioFun />} />
+      <Route path="/carrinho" element={<Carrinho />} />
     </Routes>
   );
 }

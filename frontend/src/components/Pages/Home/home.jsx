@@ -11,8 +11,8 @@ export default function Home() {
 
 // ---- FILTRAR APENAS PRODUTOS QUE DEVEM APARECER NA HOME ----
 const produtosHome = produtos
-  .filter((p) => p.home === true) // só os que têm home:true
-  .slice(0, 6); // pega apenas os 6 primeiros
+  .filter((p) => p.home === true) 
+  .slice(0, 6); 
 
 
     const irParaProduto = () => {
@@ -71,25 +71,31 @@ const produtosHome = produtos
       </section>
 
       {/* PRODUTOS */}
-      <section className="produtos">
-       <h2>Alguns Produtos</h2>
-        <div className="lista-produtos">
-        {produtosHome.map((item) => (
-            <div
-              key={item.id}
-              className="card"
-              onClick={() => irParaProduto(item.id)}
-              style={{ cursor: "pointer" }}
-            >
-              <img src={item.imagem} alt={item.nome} />
-              <h3>{item.nome}</h3>
-              <Avaliacao rating={item.avaliacao} />
-              <p>R$ {item.preco}</p>
-              <button>Adicionar à bolsa</button>
-            </div>
-          ))}
-        </div>
-      </section>
+<section className="produtos">
+  <h2>Alguns Produtos</h2>
+
+  <div className="lista-produtos">
+    {produtosHome.map((item) => (
+      <div
+        key={item.id}
+        className="card"
+        onClick={() => irParaProduto(item.id)}
+        style={{ cursor: "pointer" }}>
+        <img src={item.imagem} alt={item.nome} />
+        <h3>{item.nome}</h3>
+        <Avaliacao rating={item.avaliacao} />
+        <p>R$ {item.preco}</p>
+       <button
+          onClick={(e) => {
+            e.stopPropagation(); 
+            navigate("/sacola");
+          }}>
+          Adicionar ao Carrinho
+        </button>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* VANTAGENS */}
         <section className="vantagens">

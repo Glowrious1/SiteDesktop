@@ -1,0 +1,100 @@
+.carrinho-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 40px 60px;
+  box-sizing: border-box;
+  margin-top: 50px;
+}
+
+
+.itens-carrinho {
+  width: 55%;
+  padding: 30px;
+}
+
+.titulo-sacola {
+  text-align: center;
+  color: #b08913;
+  font-size: 22px;
+  margin-bottom: 25px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+}
+
+.item img {
+  width: 80px;
+  border-radius: 10px;
+}
+
+.info {
+  margin-left: 15px;
+  flex: 1;
+}
+
+.controle {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.controle button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.remove {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.preco {
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.finalizar {
+  width: 40%;
+  background: #e5cabb;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.finalizar input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.confirmar {
+  background: #8a5330;
+  color: white;
+  border: none;
+  width: 70%;
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.total {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.total span {
+  font-weight: bold;
+}

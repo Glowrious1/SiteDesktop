@@ -10,6 +10,33 @@ export default function Rosto() {
   // ---- FILTRAR APENAS OS PRODUTOS DE ROSTO ----
   const produtosRosto = produtos.filter((p) => p.categoria === "Maquiagem");
 
+  // dentro do componente (já com useNavigate e outras coisas)
+const userId = 1; // trocar depois pelo usuário logado
+
+const adicionarCarrinho = async (item) => {
+  try {
+    const response = await fetch("http://localhost:3001/carrinho/addItem", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        IdUser: userId,
+        IdProd: item.id,
+        Qtd: 1,
+        ValorUnitario: Number(item.preco.replace(",", ".")), // transforma "40,00" em 40.00
+      }),
+    });
+
+    const data = await response.json();
+    console.log("Adicionado:", data);
+
+    navigate("/carrinho"); // ir para a sacola
+  } catch (error) {
+    console.log("Erro ao adicionar:", error);
+  }
+};
+
+
+
   // ---- ABRIR O PRODUTO CORRETO ----
   const irParaProduto = (id) => {
     navigate(`/produto/${id}`);
@@ -85,20 +112,34 @@ export default function Rosto() {
         <h2>Produtos para o Rosto</h2>
 
         <div className="lista-produtos">
-          {produtosRosto.map((item) => (
-            <div
-              key={item.id}
-              className="card"
-              onClick={() => irParaProduto(item.id)}
-              style={{ cursor: "pointer" }}
-            >
+        {produtosRosto.map((item) => (
+          <div
+            key={item.id}
+            className="card"
+            onClick={() => irParaProduto(item.id)} // abre página do produto
+            style={{ cursor: "pointer" }}
+          >
+            {/* Conteúdo clicável que leva ao produto */}
+            <div style={{ pointerEvents: "none" }}>
               <img src={item.imagem} alt={item.nome} />
               <h3>{item.nome}</h3>
-              <Avaliacao rating={4} />
+              <Avaliacao rating={item.avaliacao} />
               <p>R$ {item.preco}</p>
-              <button>Adicionar à bolsa</button>
             </div>
-          ))}
+
+            {/* Botão separado que não ativa o onClick do card */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation(); // impede ir para tela do produto
+                adicionarCarrinho(item);
+              }}
+            >
+              Adicionar ao Carrinho
+            </button>
+
+          </div>
+        ))}
+
         </div>
       </section>
 
