@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import Toast from './components/Toast/Toast.jsx';
 import Home from "./components/Pages/Home/home.jsx";
 import Favoritos from "./components/Pages/Favoritos/Favoritos.jsx";
 import Produto from "./components/Pages/Produto/Produto.jsx";
@@ -19,6 +20,8 @@ import EditarCli from "./components/Pages/EditarCli/EditarCli.jsx";
 
 function App() {
   return (
+    <>
+    <Toast />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/favoritos" element={<Favoritos />} />
@@ -38,6 +41,7 @@ function App() {
       <Route path="/AdicioCli" element={<AdicioCli />} />
       <Route path="/EditarCli/:id" element={<EditarCli />} />
     </Routes>
+    </>
   );
 }
 

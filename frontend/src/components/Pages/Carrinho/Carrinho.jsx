@@ -11,26 +11,33 @@ export default function Carrinho() {
 
   useEffect(() => {
     atualizarCarrinho();
+    function onCartUpdated() {
+      atualizarCarrinho();
+      // optional: could append item from event detail for instant update
+    }
+
+    window.addEventListener('cart-updated', onCartUpdated);
+    return () => window.removeEventListener('cart-updated', onCartUpdated);
   }, []);
 
   const atualizarCarrinho = () => {
-    fetch(`http://localhost:3000/carrinho/${userId}`)
+    fetch(`http://localhost:3001/carrinho/${userId}`)
       .then((res) => res.json())
       .then((data) => setItens(data));
   };
 
   const aumentar = (idCarrinho) => {
-    fetch(`http://localhost:3000/carrinho/add/${idCarrinho}`, { method: "PUT" })
+    fetch(`http://localhost:3001/carrinho/add/${idCarrinho}`, { method: "PUT" })
       .then(() => atualizarCarrinho());
   };
 
   const diminuir = (idCarrinho) => {
-    fetch(`http://localhost:3000/carrinho/remove/${idCarrinho}`, { method: "PUT" })
+    fetch(`http://localhost:3001/carrinho/remove/${idCarrinho}`, { method: "PUT" })
       .then(() => atualizarCarrinho());
   };
 
   const remover = (idCarrinho) => {
-    fetch(`http://localhost:3000/carrinho/${idCarrinho}`, { method: "DELETE" })
+    fetch(`http://localhost:3001/carrinho/${idCarrinho}`, { method: "DELETE" })
       .then(() => atualizarCarrinho());
   };
 
@@ -50,7 +57,7 @@ const adicionarAoCarrinho = async (produto) => {
         IdUser: 1,               // substitua pelo id do usuário logado
         IdProd: produto.id,
         Qtd: 1,
-        ValorUnitario: produto.preco
+        ValorUnitario: Number(String(produto.preco).replace(',', '.'))
       })
     });
 
@@ -61,7 +68,7 @@ const adicionarAoCarrinho = async (produto) => {
     }
 
     // opcional: mostrar uma notificação aqui
-    navigate("/sacola"); // envia para a página do carrinho/sacola
+    navigate("/carrinho"); // envia para a página do carrinho/sacola
   } catch (error) {
     console.error("Falha ao adicionar ao carrinho:", error);
   }

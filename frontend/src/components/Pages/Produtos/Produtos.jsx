@@ -1,12 +1,21 @@
 import { ShoppingCart, Heart, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Avaliacao from "../../Avaliacao.jsx";
-import produtos from "../../../data/produtos.js";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 import "./Produtos.css";
 
 export default function Produtos() {
   const navigate = useNavigate();
+  const [produtos, setProdutos] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/produtos")
+      .then((res) => setProdutos(res.data))
+      .catch((err) => console.error("Erro ao buscar produtos:", err));
+  }, []);
 
   function irParaProduto(id) {
     navigate(`/produto/${id}`);
@@ -98,10 +107,28 @@ export default function Produtos() {
               <h3>{p.nome}</h3>
               <Avaliacao rating={p.rating} />
               <p>R$ {p.preco},00</p>
-               <button
-                onClick={(e) => {
-                  e.stopPropagation(); 
-                  navigate("/sacola");
+              <button
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  try {
+                    const resp = await fetch('http://localhost:3001/carrinho/addItem', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        IdUser: 1,
+                        IdProd: p.id,
+                        Qtd: 1,
+                        ValorUnitario: Number(String(p.preco).replace(',', '.'))
+                      })
+                    });
+                    const data = await resp.json();
+                    window.dispatchEvent(new CustomEvent('cart-updated', { detail: { item: data.item } }));
+                    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Produto adicionado ao carrinho' } }));
+                  } catch (err) {
+                    console.error(err);
+                    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Erro ao adicionar ao carrinho' } }));
+                  }
                 }}>
                 Adicionar ao Carrinho
               </button>
