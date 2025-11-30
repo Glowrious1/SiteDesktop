@@ -87,18 +87,6 @@ app.delete("/carrinho/:id", (req, res) => {
     });
 });
 
-
-app.get("/carrinho/:id", (req, res) => {
-    const id = req.params.id;
-
-    const sql = "SELECT * FROM carrinho WHERE usuario_id = ?";
-    db.query(sql, [id], (err, result) => {
-        if (err) return res.json(err);
-        return res.json(result);
-    });
-});
-
-
 // CARRINHO ADICIONAR
 app.post("/carrinho/addItem", (req, res) => {
     const { IdUser, IdProd, Qtd, ValorUnitario } = req.body;
@@ -222,6 +210,115 @@ app.delete("/Funcionario/:id", (req, res) => {
     return res.json({ message: "Funcionário excluído com sucesso!" });
   });
 });
+
+
+
+
+// ROTA PARA EDITAR FUNCIONÁRIO
+
+// ROTA PARA BUSCAR UM FUNCIONÁRIO PELO 
+app.get("/Funcionario/:id", (req, res) => {
+    const sql = "SELECT * FROM Funcionario WHERE IdFun = ?";
+    
+    db.query(sql, [req.params.id], (err, result) => {
+        if (err) return res.status(500).json(err);
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: "Funcionário não encontrado" });
+        }
+
+        res.json(result[0]);
+    });
+});
+
+
+app.put("/Funcionario/:id", (req, res) => {
+  const { Nome, Email, Senha } = req.body;
+
+  const sql = "UPDATE Funcionario SET Nome=?, Email=?, Senha=? WHERE IdFun=?";
+  db.query(sql, [Nome, Email, Senha, req.params.id], (err) => {
+    if (err) return res.status(500).json(err);
+    res.json({ message: "Funcionário atualizado!" });
+  });
+});
+
+// LISTAR TODOS
+app.get("/Cliente", (req, res) => {
+    const sql = "SELECT * FROM Cliente";
+    db.query(sql, (err, result) => {
+        if (err) return res.status(500).json(err);
+        return res.json(result);
+    });
+});
+
+
+
+// LISTAR UM
+app.get("/Cliente/:id", (req, res) => {
+    const { id } = req.params;
+
+    const sql = "SELECT * FROM Cliente WHERE IdClient = ?";
+    db.query(sql, [id], (err, result) => {
+        if (err) return res.status(500).json(err);
+        return res.json(result[0]);
+    });
+});
+
+
+
+// CRIAR
+app.post("/Cliente", (req, res) => {
+    const { Nome, Email, CPF, Senha, CepCli } = req.body;
+
+    if (!Nome || !Email || !CPF) {
+        return res.status(400).json({ error: "Preencha os campos obrigatórios." });
+    }
+
+    const sql = `
+        INSERT INTO Cliente (Nome, Email, CPF, Senha, CepCli)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    db.query(sql, [Nome, Email, CPF, Senha, CepCli], (err, result) => {
+        if (err) return res.status(500).json(err);
+
+        return res.json({ message: "Cliente adicionado com sucesso!" });
+    });
+});
+
+
+
+// EDITARapp.put("/Cliente/:id", (req, res) => {
+app.put("/Cliente/:id", (req, res) => {
+    const { id } = req.params;
+    const { Nome, Email, CPF, Senha, CepCli } = req.body;
+
+    const sql = `
+        UPDATE Cliente
+        SET Nome = ?, Email = ?, CPF = ?, Senha = ?, CepCli = ?
+        WHERE IdClient = ?
+    `;
+
+    db.query(sql, [Nome, Email, CPF, Senha, CepCli, id], (err) => {
+        if (err) return res.status(500).json(err);
+        res.json({ message: "Cliente atualizado com sucesso!" });
+    });
+});
+
+
+
+// DELETAR
+app.delete("/Cliente/:id", (req, res) => {
+    const { id } = req.params;
+
+    const sql = "DELETE FROM Cliente WHERE IdClient = ?";
+    db.query(sql, [id], (err) => {
+        if (err) return res.status(500).json(err);
+        return res.json({ message: "Cliente deletado com sucesso!" });
+    });
+});
+
+
 
 
 
