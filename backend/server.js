@@ -1,109 +1,182 @@
-// Declarando as dependencias que serão utilizadas no projeto
 require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
-const produtos = require('./produtos');
+const multer = require("multer");
+const path = require("path");
 
-// App recebe a função do express para realizar as operações
-const app = express()
+const app = express();
 
-//Declanrando o banco de dados (usa variáveis de ambiente quando disponíveis)
+// Middlewares principais
+app.use(express.json());
+app.use(cors());
+
+// Pasta de uploads
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// 📌 CONFIGURAÇÃO DO MULTER (upload)
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, "uploads/"),
+    filename: (req, file, cb) =>
+        cb(null, Date.now() + "-" + file.originalname.replace(/\s+/g, "_"))
+});
+const upload = multer({ storage });
+
+// 📌 Conexão com o Banco MySQL
 const db = mysql.createPool({
     host: process.env.DB_HOST || "localhost",
     user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "12345678",
+    password: process.env.DB_PASSWORD || "2312",
     database: process.env.DB_NAME || "dbilumina",
 });
-//Usando o  express para converte os dados em JSON
-app.use(express.json()); // converte todo hmtl em  json
 
-// Usando o cors
-app.use(cors());
-//declarando  a porta do servidor
+// Porta do servidor
 const port = 3001;
 
-// Endpoints para produtos: preferencialmente via banco, com fallback para dados estáticos
-app.get('/produtos', (req, res) => {
-    const q = `
-        SELECT p.CodigoBarras as id,
-               p.NomeProd as nome,
-               p.ValorUnitario as preco,
-               p.foto as imagem,
-               p.Descricao as descricao,
-               c.Categoria as categoria
+
+// ADICIONAR PRODUTO
+app.post("/produto", upload.single("foto"), (req, res) => {
+    const { nome, preco, descricao, categoria, qtd, genero, home } = req.body;
+
+    const imagem = req.file ? `/uploads/${req.file.filename}` : null;
+
+    if (!nome || !preco || !categoria) {
+        return res.status(400).json({ error: "Campos obrigatórios ausentes!" });
+    }
+
+    const sql = `
+        INSERT INTO Produto 
+        (NomeProd, ValorUnitario, Descricao, foto, codCategoria, qtd, Genero, home)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(sql, [
+        nome,
+        preco,
+        descricao,
+        imagem,
+        categoria,
+        qtd || 0,
+        genero || null,
+        home || 0
+    ], (err, result) => {
+        if (err) return res.status(500).json(err);
+
+        res.status(201).json({ message: "Produto cadastrado!", id: result.insertId });
+    });
+});
+
+
+app.get("/tipoProduto", (req, res) => {
+    const sql = "SELECT * FROM Categoria";
+
+    db.query(sql, (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.json(result);
+    });
+});
+
+
+
+
+
+/* ===============================================================================================
+    ROTAS DE PRODUTO
+================================================================================================ */
+
+// LISTAR TODOS OS PRODUTOS  (API geral)
+app.get("/produto", (req, res) => {
+    const sql = `
+        SELECT 
+            p.CodigoBarras AS id,
+            p.NomeProd AS nome,
+            p.ValorUnitario AS preco,
+            p.foto AS imagem,
+            p.Descricao AS descricao,
+            p.qtd,
+            p.Genero,
+            c.Categoria AS categoria,
+            p.home
         FROM Produto p
         LEFT JOIN Categoria c ON p.codCategoria = c.codCategoria
     `;
 
-    db.query(q, (err, results) => {
-        if (err) {
-            console.error('Erro ao buscar produtos no DB:', err);
-            if (Array.isArray(produtos) && produtos.length > 0) {
-                return res.json(produtos);
-            }
-            return res.status(500).json({ error: 'Erro ao buscar produtos' });
-        }
-
-        const mapped = results.map((r) => ({
-            id: r.id,
-            nome: r.nome,
-            preco: (r.preco === null || r.preco === undefined) ? null : (typeof r.preco === 'number' ? r.preco.toFixed(2).replace('.', ',') : String(r.preco)),
-            imagem: r.imagem || '/placeholder.png',
-            avaliacao: r.avaliacao || 0,
-            categoria: r.categoria || null,
-            descricao: r.descricao || ''
-        }));
-
-        res.json(mapped);
+    db.query(sql, (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.json(result);
     });
 });
 
-app.get('/produto/:id', (req, res) => {
-    const id = req.params.id;
-    const q = `
-        SELECT p.CodigoBarras as id,
-               p.NomeProd as nome,
-               p.ValorUnitario as preco,
-               p.foto as imagem,
-               p.Descricao as descricao,
-               c.Categoria as categoria
+
+// LISTAR POR CATEGORIA  (ex: /produto/cabelo)
+app.get("/produto/:categoria", (req, res) => {
+    const categoria = req.params.categoria;
+
+    const sql = `
+        SELECT 
+            p.CodigoBarras AS id,
+            p.NomeProd AS nome,
+            p.ValorUnitario AS preco,
+            p.foto AS imagem,
+            p.Descricao AS descricao,
+            p.qtd,
+            p.Genero,
+            c.Categoria AS categoria,
+            p.home
         FROM Produto p
         LEFT JOIN Categoria c ON p.codCategoria = c.codCategoria
-        WHERE p.CodigoBarras = ?
+        WHERE c.Categoria = ?
     `;
 
-    db.query(q, [id], (err, results) => {
-        if (err) {
-            console.error('Erro ao buscar produto no DB:', err);
-            if (Array.isArray(produtos) && produtos.length > 0) {
-                const prod = produtos.find((p) => String(p.id) === String(id));
-                if (prod) return res.json(prod);
-            }
-            return res.status(500).json({ error: 'Erro ao buscar produto' });
-        }
-
-        if (!results || results.length === 0) {
-            return res.status(404).json({ error: 'Produto não encontrado' });
-        }
-
-        const r = results[0];
-        const mapped = {
-            id: r.id,
-            nome: r.nome,
-            preco: (r.preco === null || r.preco === undefined) ? null : (typeof r.preco === 'number' ? r.preco.toFixed(2).replace('.', ',') : String(r.preco)),
-            imagem: r.imagem || '/placeholder.png',
-            avaliacao: r.avaliacao || 0,
-            categoria: r.categoria || null,
-            descricao: r.descricao || ''
-        };
-
-        return res.json(mapped);
+    db.query(sql, [categoria], (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.json(result);
     });
 });
 
-// CARRINHO 
 
+// 🔥 MANTIVE sua rota antiga /produtos para não quebrar nada!
+app.get("/produtos", (req, res) => {
+    const sql = `
+        SELECT 
+            p.CodigoBarras AS id,
+            p.NomeProd AS nome,
+            p.ValorUnitario AS preco,
+            p.foto AS imagem,
+            p.Descricao AS descricao,
+            p.qtd,
+            p.Genero,
+            c.Categoria AS categoria,
+            p.home
+        FROM Produto p
+        LEFT JOIN Categoria c ON p.codCategoria = c.codCategoria
+    `;
+
+    db.query(sql, (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.json(result);
+    });
+});
+
+
+// PRODUTOS DA HOME
+app.get("/home", (req, res) => {
+    const sql = "SELECT * FROM Produto WHERE Home = 1";
+
+    db.query(sql, (err, result) => {
+        if (err) return res.status(500).json({ error: "Erro ao buscar produtos da Home", err });
+        res.json(result);
+    });
+});
+
+
+
+
+/* ===============================================================================================
+    CARRINHO
+================================================================================================ */
+
+// LISTAR CARRINHO POR USUÁRIO
 app.get("/carrinho/:idUser", (req, res) => {
     const q = `
         SELECT 
@@ -125,13 +198,11 @@ app.get("/carrinho/:idUser", (req, res) => {
     });
 });
 
-// CARRINHO - AUMENTAR, DIMINUIR, REMOVER
-
+// AUMENTAR QTD
 app.put("/carrinho/add/:id", (req, res) => {
     const q = `
         UPDATE Carrinho
-        SET 
-            Qtd = Qtd + 1,
+        SET Qtd = Qtd + 1,
             ValorTotal = (Qtd + 1) * ValorUnitario
         WHERE IdCarrinho = ?;
     `;
@@ -142,7 +213,7 @@ app.put("/carrinho/add/:id", (req, res) => {
     });
 });
 
-
+// DIMINUIR QTD
 app.put("/carrinho/remove/:id", (req, res) => {
     const q = `
         UPDATE Carrinho
@@ -158,7 +229,7 @@ app.put("/carrinho/remove/:id", (req, res) => {
     });
 });
 
-
+// REMOVER ITEM
 app.delete("/carrinho/:id", (req, res) => {
     const q = `DELETE FROM Carrinho WHERE IdCarrinho = ?`;
 
@@ -168,10 +239,7 @@ app.delete("/carrinho/:id", (req, res) => {
     });
 });
 
-
-
-
-// CARRINHO ADICIONAR
+// ADICIONAR ITEM AO CARRINHO
 app.post("/carrinho/addItem", (req, res) => {
     const { IdUser, IdProd, Qtd, ValorUnitario } = req.body;
 
@@ -187,26 +255,21 @@ app.post("/carrinho/addItem", (req, res) => {
     `;
 
     db.query(sql, [IdUser, IdProd, Qtd, ValorUnitario, ValorTotal], (err, result) => {
-        if (err) {
-            console.log("Erro SQL:", err);
-            return res.status(500).json(err);
-        }
-        // Buscar o registro inserido e retornar ao cliente
+        if (err) return res.status(500).json(err);
+
         const insertedId = result.insertId;
         const qGet = `
-            SELECT c.IdCarrinho, c.IdProd, c.Qtd, c.ValorUnitario, c.ValorTotal, p.NomeProd as nome, p.foto as imagem
+            SELECT c.IdCarrinho, c.IdProd, c.Qtd, c.ValorUnitario, c.ValorTotal, 
+                   p.NomeProd as nome, p.foto as imagem
             FROM Carrinho c
             LEFT JOIN Produto p ON p.CodigoBarras = c.IdProd
             WHERE c.IdCarrinho = ?
         `;
 
         db.query(qGet, [insertedId], (err2, rows) => {
-            if (err2) {
-                console.error('Erro ao buscar item inserido:', err2);
-                return res.status(201).json({ message: 'Item adicionado!', id: insertedId });
-            }
+            if (err2) return res.status(201).json({ message: 'Item adicionado!', id: insertedId });
 
-            return res.status(201).json({ message: 'Item adicionado!', item: rows[0] || null });
+            res.status(201).json({ message: 'Item adicionado!', item: rows[0] });
         });
     });
 });
@@ -214,41 +277,30 @@ app.post("/carrinho/addItem", (req, res) => {
 
 
 
-//mano bugo legal
 
+
+/* ===============================================================================================
+    LOGIN
+================================================================================================ */
 app.post("/login", (req, res) => {
-    console.log("BODY RECEBIDO /login:", req.body);
-
     const { email, senha } = req.body;
-
-    const teste = req.body;
-    console.log("teste:", teste);
-    console.log("Dados recebidos:", { email, senha });
 
     if (!email || !senha) {
         return res.status(400).json({ auth: false, message: "Email e senha são obrigatórios" });
     }
 
-    const emailTrim = String(email).trim();
-    const senhaTrim = String(senha).trim();
-
     const sql = "SELECT * FROM Usuario WHERE Email = ? AND Senha = ? AND Ativo = 1";
 
-    db.query(sql, [emailTrim, senhaTrim], (err, result) => {
-        if (err) {
-            console.error("Erro na query /login:", err);
-            return res.status(500).json({ auth: false, message: "Erro no servidor" });
-        }
+    db.query(sql, [email.trim(), senha.trim()], (err, result) => {
+        if (err) return res.status(500).json({ auth: false, message: "Erro no servidor" });
 
-        if (!result || result.length === 0) {
+        if (!result.length) {
             return res.json({ auth: false, message: "Email ou senha incorretos!" });
         }
 
-        console.log("Resultado da query /login:", result);
-
         const usuario = result[0];
 
-        return res.json({
+        res.json({
             auth: true,
             id: usuario.IdUser,
             nome: usuario.Nome,
@@ -257,163 +309,132 @@ app.post("/login", (req, res) => {
     });
 });
 
-// ROTA PARA ADICIONAR FUNCIONÁRIO 
+
+
+
+
+
+/* ===============================================================================================
+    FUNCIONÁRIO
+================================================================================================ */
+
 app.post("/Funcionario", (req, res) => {
-  const { Nome, Email, Senha } = req.body;
+    const { Nome, Email, Senha } = req.body;
 
-  if (!Nome || !Email || !Senha) {
-    return res.status(400).json({ error: "Preencha todos os campos." });
-  }
+    if (!Nome || !Email || !Senha)
+        return res.status(400).json({ error: "Preencha todos os campos." });
 
-  const sql = "INSERT INTO Funcionario (Nome, Email, Senha) VALUES (?, ?, ?)";
+    const sql = "INSERT INTO Funcionario (Nome, Email, Senha) VALUES (?, ?, ?)";
 
-  db.query(sql, [Nome, Email, Senha], (err, result) => {
-    if (err) {
-      console.error("Erro ao inserir funcionário:", err);
-      return res.status(500).json({ error: "Erro ao adicionar funcionário." });
-    }
+    db.query(sql, [Nome, Email, Senha], (err, result) => {
+        if (err) return res.status(500).json({ error: "Erro ao adicionar funcionário." });
 
-    return res.status(201).json({
-      message: "Funcionário cadastrado com sucesso!",
-      id: result.insertId
+        res.status(201).json({ message: "Funcionário cadastrado!", id: result.insertId });
     });
-  });
 });
 
-// ROTA PARA LISTAR FUNCIONÁRIOS
 app.get("/Funcionario", (req, res) => {
-  const sql = "SELECT * FROM Funcionario";
-
-  db.query(sql, (err, result) => {
-    if (err) {
-      console.error("Erro ao buscar funcionários:", err);
-      return res.status(500).json({ error: "Erro ao consultar funcionários." });
-    }
-
-    return res.json(result);
-  });
+    db.query("SELECT * FROM Funcionario", (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.json(result);
+    });
 });
 
-// ROTA PARA EXCLUIR FUNCIONÁRIO
-app.delete("/Funcionario/:id", (req, res) => {
-  const { id } = req.params;
-
-  const sql = "DELETE FROM Funcionario WHERE IdFun = ?";
-
-  db.query(sql, [id], (err, result) => {
-    if (err) {
-      console.error("Erro ao excluir funcionário:", err);
-      return res.status(500).json({ error: "Erro ao excluir funcionário." });
-    }
-
-    return res.json({ message: "Funcionário excluído com sucesso!" });
-  });
-});
-
-
-
-
-// ROTA PARA EDITAR FUNCIONÁRIO
-
-// ROTA PARA BUSCAR UM FUNCIONÁRIO PELO 
 app.get("/Funcionario/:id", (req, res) => {
     const sql = "SELECT * FROM Funcionario WHERE IdFun = ?";
-    
+
     db.query(sql, [req.params.id], (err, result) => {
         if (err) return res.status(500).json(err);
 
-        if (result.length === 0) {
+        if (!result.length)
             return res.status(404).json({ message: "Funcionário não encontrado" });
-        }
 
         res.json(result[0]);
     });
 });
 
-
 app.put("/Funcionario/:id", (req, res) => {
-  const { Nome, Email, Senha } = req.body;
+    const { Nome, Email, Senha } = req.body;
 
-  const sql = "UPDATE Funcionario SET Nome=?, Email=?, Senha=? WHERE IdFun=?";
-  db.query(sql, [Nome, Email, Senha, req.params.id], (err) => {
-    if (err) return res.status(500).json(err);
-    res.json({ message: "Funcionário atualizado!" });
-  });
+    const sql = "UPDATE Funcionario SET Nome=?, Email=?, Senha=? WHERE IdFun=?";
+
+    db.query(sql, [Nome, Email, Senha, req.params.id], (err) => {
+        if (err) return res.status(500).json(err);
+        res.json({ message: "Funcionário atualizado!" });
+    });
 });
 
-// LISTAR TODOS
+app.delete("/Funcionario/:id", (req, res) => {
+    const sql = "DELETE FROM Funcionario WHERE IdFun = ?";
+
+    db.query(sql, [req.params.id], (err) => {
+        if (err) return res.status(500).json(err);
+        res.json({ message: "Funcionário excluído!" });
+    });
+});
+
+
+
+
+
+
+/* ===============================================================================================
+    CLIENTE
+================================================================================================ */
+
 app.get("/Cliente", (req, res) => {
-    const sql = "SELECT * FROM Cliente";
-    db.query(sql, (err, result) => {
+    db.query("SELECT * FROM Cliente", (err, result) => {
         if (err) return res.status(500).json(err);
-        return res.json(result);
+        res.json(result);
     });
 });
 
-
-
-// LISTAR UM
 app.get("/Cliente/:id", (req, res) => {
-    const { id } = req.params;
-
     const sql = "SELECT * FROM Cliente WHERE IdClient = ?";
-    db.query(sql, [id], (err, result) => {
+
+    db.query(sql, [req.params.id], (err, result) => {
         if (err) return res.status(500).json(err);
-        return res.json(result[0]);
+        res.json(result[0]);
     });
 });
 
-
-
-// CRIAR
 app.post("/Cliente", (req, res) => {
     const { Nome, Email, CPF, Senha, CepCli } = req.body;
 
-    if (!Nome || !Email || !CPF) {
+    if (!Nome || !Email || !CPF)
         return res.status(400).json({ error: "Preencha os campos obrigatórios." });
-    }
 
     const sql = `
         INSERT INTO Cliente (Nome, Email, CPF, Senha, CepCli)
         VALUES (?, ?, ?, ?, ?)
     `;
 
-    db.query(sql, [Nome, Email, CPF, Senha, CepCli], (err, result) => {
+    db.query(sql, [Nome, Email, CPF, Senha, CepCli], (err) => {
         if (err) return res.status(500).json(err);
-
-        return res.json({ message: "Cliente adicionado com sucesso!" });
+        res.json({ message: "Cliente adicionado!" });
     });
 });
 
-
-
-// EDITARapp.put("/Cliente/:id", (req, res) => {
 app.put("/Cliente/:id", (req, res) => {
-    const { id } = req.params;
-    const { Nome, Email, CPF, Senha, CepCli } = req.body;
-
     const sql = `
         UPDATE Cliente
-        SET Nome = ?, Email = ?, CPF = ?, Senha = ?, CepCli = ?
-        WHERE IdClient = ?
+        SET Nome=?, Email=?, CPF=?, Senha=?, CepCli=?
+        WHERE IdClient=?
     `;
 
-    db.query(sql, [Nome, Email, CPF, Senha, CepCli, id], (err) => {
+    const { Nome, Email, CPF, Senha, CepCli } = req.body;
+
+    db.query(sql, [Nome, Email, CPF, Senha, CepCli, req.params.id], (err) => {
         if (err) return res.status(500).json(err);
-        res.json({ message: "Cliente atualizado com sucesso!" });
+
+        res.json({ message: "Cliente atualizado!" });
     });
 });
 
-
-
-// DELETAR
 app.delete("/Cliente/:id", (req, res) => {
-    const { id } = req.params;
-
-    const sql = "DELETE FROM Cliente WHERE IdClient = ?";
-    db.query(sql, [id], (err) => {
+    db.query("DELETE FROM Cliente WHERE IdClient=?", [req.params.id], (err) => {
         if (err) return res.status(500).json(err);
-        return res.json({ message: "Cliente deletado com sucesso!" });
+        res.json({ message: "Cliente deletado!" });
     });
 });
 
@@ -421,7 +442,11 @@ app.delete("/Cliente/:id", (req, res) => {
 
 
 
-// executando o servidor
-app.listen(port,()=>{
-    console.log(`Servidor Rodando na Porta:${port}`)
+
+/* ===============================================================================================
+    INICIAR SERVIDOR
+================================================================================================ */
+
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
 });

@@ -19,6 +19,9 @@ Ativo char(1)  default '1'
 );
 
 
+
+
+
 INSERT INTO Usuario (Nome, Email, Senha, CPF, Role)
 VALUES ('Administrador Master', 'admin@site.com', 'admin123', '000.000.000-00', 'Admin');
 
@@ -32,7 +35,7 @@ Sugestões de colunas:
 Salario decimal(9,2) not null,
 Status ENUM("Ativo", "Inativo") default "Ativo"
 );
-
+*/
 
 Create table Cliente(
 IdClient int primary key auto_increment,
@@ -42,7 +45,9 @@ CPF varchar(14) unique not null, -- Estava 12 mudei pra 14 pq ia dar erro.
 Senha varchar(250),
 CepCli int -- CEP vai no endereço, da pra fazer integração com API legal, bem facil de fazer
 );
-*/
+
+SELECT * FROM Cliente;
+
 create table Funcionario (
 IdFun int primary key auto_increment,
 Nome varchar(200) not null,
@@ -99,6 +104,23 @@ Descricao varchar(250),
 ValorUnitario decimal(9,2)
 );
 
+DESCRIBE Produto;
+
+ALTER TABLE Produto
+ADD COLUMN Home TINYINT(1) DEFAULT 0;
+
+UPDATE Produto
+SET Home = 1
+WHERE CodigoBarras = 19;
+
+UPDATE Produto SET Home = 1 WHERE CodigoBarras IN (17, 18);
+UPDATE Produto SET Home = 1 WHERE CodigoBarras IN (11, 15,6);
+SELECT * FROM Produto WHERE Home = 1;
+
+
+
+
+
 create table Favoritos(
 IdFav int primary key auto_increment,
 IdUser int not null,
@@ -122,6 +144,45 @@ create table Categoria(
 codCategoria int primary key auto_increment,
 Categoria varchar(155)
 );
+
+SELECT * FROM Categoria;
+
+
+UPDATE Categoria SET Categoria = 'Maquiagem' WHERE codCategoria = 1;
+UPDATE Categoria SET Categoria = 'Cabelo' WHERE codCategoria = 2;
+UPDATE Categoria SET Categoria = 'Perfumes' WHERE codCategoria = 3;
+UPDATE Categoria SET Categoria = 'Corpo' WHERE codCategoria = 4;
+
+UPDATE Produto SET codCategoria = 1 WHERE CodigoBarras = 123456;
+
+
+UPDATE Produto SET codCategoria = 1 WHERE CodigoBarras IN (
+1,2,3,4,5,6,7,8,10,11,12,13,14,15,
+24,25,26,27,28,29
+);
+
+UPDATE Produto SET codCategoria = 3 WHERE CodigoBarras IN (
+30,31,32,33,34,35,36,37,38
+);
+
+UPDATE Produto SET codCategoria = 2 WHERE CodigoBarras IN (
+17,18,19,
+39,40,
+48,49,50,
+51,52,53
+);
+
+UPDATE Produto SET codCategoria = 4 WHERE CodigoBarras IN (
+20,21,22,23,
+41,42,43,44,45,46,47,58
+);
+
+
+SELECT CodigoBarras, NomeProd, codCategoria FROM Produto;
+
+
+SELECT CodigoBarras, NomeProd FROM Produto;
+
 
 create table tipoProduto(
 codTipoProduto int primary key auto_increment,
@@ -152,6 +213,36 @@ IdEntrega int
  TotalNota decimal(9,2),
  DataEmissao date not null
 );
+
+SHOW COLUMNS FROM Produto;
+
+ 
+INSERT INTO Produto (CodigoBarras, NomeProd, qtd, foto, Genero, Descricao, ValorUnitario, codCategoria)
+VALUES
+(1, 'Blush Compacto 4g - pêssego-terroso', 50, '/blush.png', 'Unissex', 'Um tom pêssego-terroso sofisticado que ilumina naturalmente a pele. Sua textura ultrafina desliza com suavidade, garantindo um esfumado impecável e acabamento aveludado.', 39.90, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(2, 'Creme Facial', 50, '/cremefacial.jpg', 'Unissex', 'Creme facial hidratante e restaurador.', 130.00, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(3, 'Prime', 50, '/Prime1.png', 'Unissex', 'Prime para preparação da pele, melhora a durabilidade da maquiagem.', 120.00, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(4, 'Rouge Royale – 6 ml', 50, '/gloss1.png', 'Unissex', 'Rouge Royale é um gloss criado para quem deseja dominar os holofotes. Seu tom vermelho profundo e acabamento luminoso.', 49.00, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(5, 'Crystal Frost – 6 ml', 50, '/gloss2.png', 'Unissex', 'Crystal Frost com microbrilhos prateados para um reflexo espelhado.', 49.00, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(6, 'Pink Velvet – 6 ml', 50, '/gloss3.png', 'Unissex', 'Pink Velvet tom rosa vibrante com acabamento luminoso.', 47.00, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(7, 'Bronze Amour – 6 ml', 50, '/gloss4.png', 'Unissex', 'Bronze Amour tonalidade bronze quente com partículas douradas.', 47.00, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(8, 'Cocoa Glow – 6 ml', 50, '/gloss5.png', 'Unissex', 'Cocoa Glow tom marrom suave com acabamento sofisticado.', 54.90, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(10, '15N – Ivory Glow', 50, '/base1.png', 'Unissex', 'Base 15N – Ivory Glow com cobertura média e acabamento aveludado.', 89.90, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(11, '20W – Golden Radiance', 50, '/base2.png', 'Unissex', 'Base 20W – Golden Radiance com acabamento radiante.', 89.90, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(12, '10N – Pearl Porcelain', 50, '/base3.png', 'Unissex', 'Base 10N – Pearl Porcelain entrega luminosidade e acabamento impecável.', 89.90, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(13, '40W – Caramel Essence', 50, '/base4.png', 'Unissex', 'Base 40W – Caramel Essence tonalidade caramelizada e acabamento luminoso.', 89.90, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(14, '30N – Nude Harmony', 50, '/base5.png', 'Unissex', 'Base 30N – Nude Harmony equilíbrio entre naturalidade e cobertura.', 89.90, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(15, '50C – Mocha Deep', 50, '/base6.png', 'Unissex', 'Base 50C – Mocha Deep formulada para peles profundas.', 89.90, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Maquiagem')),
+(17, 'Shampoo de Banana', 100, '/Shampoo.png', 'Unissex', 'Hidratação suave e maciez imediata para fios radiantes.', 40.00, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Cabelo')),
+(18, 'Condicionador de Banana', 100, '/Condicionador.png', 'Unissex', 'Hidratação profunda e nutrição imediata para fios mais fortes e macios.', 40.00, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Cabelo')),
+(19, 'Hidratante Capilar de Banana', 100, '/Capilar.png', 'Unissex', 'Hidratação profunda e nutrição imediata.', 40.00, (SELECT codCategoria FROM Categoria WHERE Categoria = 'Cabelo'));
+
+ 
+ 
+ 
+ 
+ 
+ 
  
 
 ALTER TABLE Produto 
@@ -221,7 +312,7 @@ ADD CONSTRAINT fk_Produto_TipoProduto FOREIGN KEY (codTipoProduto) REFERENCES ti
 
 -- Nessa parte é legal colocar todos os UFs, para colocar num selectzão que fica legal. Vou colocar o código com os inserts aqui, fica a critério de vocês utilizar ou não.
 -- É melhor hard codar essa parte pq o usuário é burro.
-/*
+
 INSERT INTO Estado (UF) VALUES ('AC');
 INSERT INTO Estado (UF) VALUES ('AL');
 INSERT INTO Estado (UF) VALUES ('AP');
@@ -273,7 +364,7 @@ insert into tipoProduto  (TipoProduto,codCategoria) values ('Esfoliante',4);
 insert into tipoProduto  (TipoProduto,codCategoria) values ('Perfume',4);
 insert into tipoProduto  (TipoProduto,codCategoria) values ('Creme de Barbear',4);
 
-*/
+
  create  procedure InsertEstado(
  in vUF char(2)
  )
