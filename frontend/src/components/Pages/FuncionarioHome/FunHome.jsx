@@ -5,7 +5,7 @@ import {
   LayoutDashboard,
   Users,
   User,
-  Settings,
+
   Grid2x2,
   LogOut
 } from "lucide-react";
@@ -43,11 +43,7 @@ export default function FuncionarioHome() {
             <User size={26} strokeWidth={1.7} />
           </button>
 
-          <button className="menu-btn">
-            <Settings size={26} strokeWidth={1.7} />
-          </button>
-
-          <button className="menu-btn">
+          <button className="menu-btn" onClick={() => navigate("/funPro")}>
             <Grid2x2 size={26} strokeWidth={1.7} />
           </button>
 
@@ -67,32 +63,6 @@ export default function FuncionarioHome() {
         <div className="banner">
           <img src="/banner6.png" alt="Banner Funcionário" />
         </div>
-
-        {/* FOOTER */}
-        <footer className="footer">
-          <div className="footer-container">
-            <div className="lado-esquerdo">
-              <p>(55) 11 14323-2342</p>
-              <p>LUSTRIOUS@GMAIL.COM</p>
-            </div>
-
-            <div className="footer-icons">
-              <a href="https://www.instagram.com/lustriousskincare/">
-                <img src="/instagram.png" alt="Instagram" />
-              </a>
-              <a href="#">
-                <img src="/linkedin.png" alt="LinkedIn" />
-              </a>
-              <a href="#">
-                <img src="/whatsapp.png" alt="WhatsApp" />
-              </a>
-            </div>
-          </div>
-
-          <div className="direitos-autorais">
-            <p>&copy;DIREITOS AUTORAIS 2025</p>
-          </div>
-        </footer>
       </main>
 
       {/* MODAL DE LOGOUT */}

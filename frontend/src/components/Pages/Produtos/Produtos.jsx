@@ -40,7 +40,9 @@ export default function Produtos() {
 
         <div className="icons">
           <Link to="/favoritos"><Heart size={22} strokeWidth={1.5} /></Link>
-          <ShoppingCart size={22} strokeWidth={1.5} />
+            <Link to="/carrinho">
+            <ShoppingCart size={22} strokeWidth={1.5} />
+          </Link>
           <Link to="/login"><User size={22} strokeWidth={1.5} /></Link>
         </div>
       </header>
@@ -76,11 +78,11 @@ export default function Produtos() {
             <img src="/image10.jpg" alt="Rosto" />
             <span>ROSTO</span>
           </div>
-          <div className="categoria">
+          <div className="categoria" onClick={() => navigate("/cabelo")}>
             <img src="/image11.jfif" alt="Cabelo" />
             <span>CABELO</span>
           </div>
-          <div className="categoria">
+          <div className="categoria" onClick={() => navigate("/perfumes")}>
             <img src="/perfumes.jpg" alt="Perfumes" />
             <span>PERFUMES</span>
           </div>
@@ -98,7 +100,7 @@ export default function Produtos() {
         <div className="lista-produtos">
           {produtos.map((p) => (
             <div
-              key={p.id}
+             key={p.id || p.CodigoBarras || p.nome}
               className="card"
               onClick={() => irParaProduto(p.id)}
               style={{ cursor: "pointer" }}

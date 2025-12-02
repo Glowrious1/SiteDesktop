@@ -2,11 +2,21 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { ArrowLeft } from "lucide-react";
+
+import {
+  LayoutDashboard,
+  Users,
+  User,
+  Grid2x2,
+  LogOut,
+  ArrowLeft
+} from "lucide-react";
 
 export default function EditarCli() {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const [form, setForm] = useState({
     nome: "",
@@ -60,12 +70,48 @@ export default function EditarCli() {
     }
   }
 
+  function handleLogout() {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/Login");
+  }
+
   return (
     <div className="layout">
 
+      {/* SIDEBAR (copiado do EditarFun) */}
+      <aside className="sidebar">
+        <div className="logo1">L</div>
+
+        <nav className="menu1">
+          <button className="menu-btn" onClick={() => navigate("/FuncionarioHome")}>
+            <LayoutDashboard size={26} strokeWidth={1.7} />
+          </button>
+
+          <button className="menu-btn" onClick={() => navigate("/Funcionario")}>
+            <Users size={26} strokeWidth={1.7} />
+          </button>
+
+          <button className="menu-btn active" onClick={() => navigate("/Cliente")}>
+            <User size={26} strokeWidth={1.7} />
+          </button>
+
+
+          <button className="menu-btn" onClick={() => navigate("/funPro")}>
+            <Grid2x2 size={26} strokeWidth={1.7} />
+          </button>
+
+          <button className="menu-btn" onClick={() => setShowLogoutModal(true)}>
+            <LogOut size={26} strokeWidth={1.7} />
+          </button>
+        </nav>
+      </aside>
+
+      {/* CONTEÚDO */}
       <main className="home-content">
         <div className="form-func-box">
 
+          {/* VOLTAR */}
           <button className="btn-voltar-func" onClick={() => navigate("/Cliente")}>
             <ArrowLeft size={18} />
             Voltar
@@ -77,7 +123,7 @@ export default function EditarCli() {
 
             <div className="form-group">
               <label>Nome</label>
-              <input 
+              <input
                 type="text"
                 name="nome"
                 value={form.nome}
@@ -88,7 +134,7 @@ export default function EditarCli() {
 
             <div className="form-group">
               <label>Email</label>
-              <input 
+              <input
                 type="email"
                 name="email"
                 value={form.email}
@@ -99,7 +145,7 @@ export default function EditarCli() {
 
             <div className="form-group">
               <label>CPF</label>
-              <input 
+              <input
                 type="text"
                 name="cpf"
                 value={form.cpf}
@@ -110,7 +156,7 @@ export default function EditarCli() {
 
             <div className="form-group">
               <label>CEP</label>
-              <input 
+              <input
                 type="text"
                 name="cep"
                 value={form.cep}
@@ -120,7 +166,7 @@ export default function EditarCli() {
 
             <div className="form-group">
               <label>Senha</label>
-              <input 
+              <input
                 type="password"
                 name="senha"
                 value={form.senha}
@@ -132,10 +178,8 @@ export default function EditarCli() {
               Atualizar Cliente
             </button>
           </form>
-
         </div>
       </main>
-
     </div>
   );
 }

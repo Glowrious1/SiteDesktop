@@ -56,11 +56,11 @@ export default function Cliente() {
 
         <nav className="menu1">
 
-          <button className="menu-btn" onClick={() => navigate("/FuncionarioHome")}>
+        <button className="menu-btn" onClick={() => navigate("/FuncionarioHome")}>
             <LayoutDashboard size={26} strokeWidth={1.7} />
           </button>
 
-          <button className="menu-btn " onClick={() => navigate("/Funcionario")}>
+          <button className="menu-btn" onClick={() => navigate("/Funcionario")}>
             <Users size={26} strokeWidth={1.7} />
           </button>
 
@@ -68,11 +68,8 @@ export default function Cliente() {
             <User size={26} strokeWidth={1.7} />
           </button>
 
-          <button className="menu-btn" onClick={() => navigate("/config")}>
-            <Settings size={26} strokeWidth={1.7} />
-          </button>
 
-          <button className="menu-btn" onClick={() => navigate("/produtos")}>
+          <button className="menu-btn" onClick={() => navigate("/funPro")}>
             <Grid2x2 size={26} strokeWidth={1.7} />
           </button>
 
@@ -145,12 +142,22 @@ export default function Cliente() {
                 </tr>
               ))}
             </tbody>
-
           </table>
-
         </div>
-
       </main>
+       {/* MODAL LOGOUT */}
+      {showLogoutModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Tem certeza que deseja sair?</h2>
+
+            <div className="modal-buttons">
+              <button className="yes" onClick={handleLogout}>Sim</button>
+              <button className="no" onClick={() => setShowLogoutModal(false)}>Não</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

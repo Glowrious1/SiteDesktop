@@ -49,6 +49,12 @@ export default function AdicioCli() {
     }
   }
 
+    function handleLogout() {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/Login");
+  }
+
   return (
     <div className="layout">
 
@@ -67,12 +73,7 @@ export default function AdicioCli() {
               <button className="menu-btn active" onClick={() => navigate("/Cliente")}>
                 <User size={26} strokeWidth={1.7} />
               </button>
-    
-              <button className="menu-btn" onClick={() => navigate("/config")}>
-                <Settings size={26} strokeWidth={1.7} />
-              </button>
-    
-              <button className="menu-btn" onClick={() => navigate("/produtos")}>
+              <button className="menu-btn" onClick={() => navigate("/funPro")}>
                 <Grid2x2 size={26} strokeWidth={1.7} />
               </button>
     
@@ -154,6 +155,19 @@ export default function AdicioCli() {
           </form>
         </div>
       </main>
+          {/* MODAL LOGOUT */}
+      {showLogoutModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Tem certeza que deseja sair?</h2>
+
+            <div className="modal-buttons">
+              <button className="yes" onClick={handleLogout}>Sim</button>
+              <button className="no" onClick={() => setShowLogoutModal(false)}>Não</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

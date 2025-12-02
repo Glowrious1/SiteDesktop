@@ -3,7 +3,7 @@ const produtos = [
   {
     id: 1,
     nome: "Blush Compacto 4g - pêssego-terroso",
-    preco: "39,90",
+    preco: "39",
     imagem: "/blush.png",
     avaliacao: 4,
     categoria: "Maquiagem",
@@ -165,6 +165,352 @@ const produtos = [
     home: true, 
     descricao: "Hidratação profunda e nutrição imediata."
 },
+
+{
+    id: 20,
+    nome: "Sabonete Gel Facial Peles Oleosas",
+    preco: "40,00",
+    imagem:"/Sabo1.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 21,
+    nome: "Sabonete Gel Facial Peles Secas",
+    preco: "40,00",
+    imagem:"/Sabo2.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 22,
+    nome: "Sabonete Gel Facial Peles Sensíveis",
+    preco: "40,00",
+    imagem:"/Sabo3.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 23,
+    nome: "Sabonete Gel Facial Peles Acneica",
+    preco: "40,00",
+    imagem:"/Sabo4.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 24,
+    nome: "Corretivo em Bastão",
+    preco: "40,00",
+    imagem:"/Corretivo1.png",
+    avaliacao: 4,
+    categoria: "Maquiagem",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 25,
+    nome: "Corretivo em Bastão",
+    preco: "40,00",
+    imagem:"/Corretivo2.png",
+    avaliacao: 4,
+    categoria: "Maquiagem",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 26,
+    nome: "Corretivo em Bastão",
+    preco: "40,00",
+    imagem:"/Corretivo3.png",
+    avaliacao: 4,
+    categoria: "Maquiagem",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 27,
+    nome: "Corretivo em Bastão",
+    preco: "40,00",
+    imagem:"/Corretivo4.png",
+    avaliacao: 4,
+    categoria: "Maquiagem",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 28,
+    nome: "Corretivo em Bastão",
+    preco: "40,00",
+    imagem:"/Corretivo5.png",
+    avaliacao: 4,
+    categoria: "Maquiagem",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 29,
+    nome: "Rimel Líquido Preto",
+    preco: "40,00",
+    imagem:"/Rimel.png",
+    avaliacao: 4,
+    categoria: "Maquiagem",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 30,
+    nome: "BodySplash Blooming Floral",
+    preco: "40,00",
+    imagem:"/BodySplash2.png",
+    avaliacao: 4,
+    categoria: "Perfumes",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+{
+    id: 31,
+    nome: "BodySplash Blooming Floral",
+    preco: "40,00",
+    imagem:"/BodySplash3.png",
+    avaliacao: 4,
+    categoria: "Perfumes",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+{
+    id: 32,
+    nome: "BodySplash Blooming Floral",
+    preco: "40,00",
+    imagem:"/BodySplash5.png",
+    avaliacao: 4,
+    categoria: "Perfumes",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 33,
+    nome: "BodySplash Blooming Floral",
+    preco: "40,00",
+    imagem:"/Bright.png",
+    avaliacao: 4,
+    categoria: "Perfumes",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+{
+    id: 34,
+    nome: "BodySplash Blooming Floral",
+    preco: "40,00",
+    imagem:"/Coffe.png",
+    avaliacao: 4,
+    categoria: "Perfumes",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+{
+    id: 35,
+    nome: "BodySplash Blooming Floral",
+    preco: "40,00",
+    imagem:"/Eleganci.png",
+    avaliacao: 4,
+    categoria: "Perfumes",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+{
+    id: 36,
+    nome: "BodySplash Blooming Floral",
+    preco: "40,00",
+    imagem:"/MiniBody.png",
+    avaliacao: 4,
+    categoria: "Perfumes",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+{
+    id: 37,
+    nome: "BodySplash Blooming Floral",
+    preco: "40,00",
+    imagem:"/Oak.png",
+    avaliacao: 4,
+    categoria: "Perfumes",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 38,
+    nome: "BodySplash Blooming Floral",
+    preco: "40,00",
+    imagem:"/Sweet.png",
+    avaliacao: 4,
+    categoria: "Perfumes",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 39,
+    nome: "Óleo Capilar",
+    preco: "40,00",
+    imagem:"/Oleo1.png",
+    avaliacao: 4,
+    categoria: "Cabelo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 40,
+    nome: "Óleo Capilar",
+    preco: "40,00",
+    imagem:"/Oleo2.png",
+    avaliacao: 4,
+    categoria: "Cabelo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 58,
+    nome: "Bronzeador",
+    preco: "40,00",
+    imagem:"/Bronzeador.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 41,
+    nome: "Bruma Corporal",
+    preco: "40,00",
+    imagem:"/BrumaCor.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 42,
+    nome: "Esfoliante Corporal",
+    preco: "40,00",
+    imagem:"/Esfoliante.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 43,
+    nome: "Esfoliante Corporal",
+    preco: "40,00",
+    imagem:"/Esfoliante2.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 44,
+    nome: "Esfoliante Corporal",
+    preco: "40,00",
+    imagem:"/Esfoliante4.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 45,
+    nome: "Esfoliante Corporal",
+    preco: "40,00",
+    imagem:"/Esfoliante5.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 46,
+    nome: "Esfoliante Corporal",
+    preco: "40,00",
+    imagem:"/Esfoliante6.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 47,
+    nome: "Esfoliante Corporal",
+    preco: "40,00",
+    imagem:"/Esfoliante7.png",
+    avaliacao: 4,
+    categoria: "Corpo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 48,
+    nome: "Shampoo Sólido",
+    preco: "40,00",
+    imagem:"/Shampoo2.png",
+    avaliacao: 4,
+    categoria: "Cabelo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 49,
+    nome: "Shampoo Sólido",
+    preco: "40,00",
+    imagem:"/Shampoo3.png",
+    avaliacao: 4,
+    categoria: "Cabelo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 50,
+    nome: "Shampoo Sólido",
+    preco: "40,00",
+    imagem:"/Shampoo4.png",
+    avaliacao: 4,
+    categoria: "Cabelo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 51,
+    nome: "Coondicionador Sólido",
+    preco: "40,00",
+    imagem:"/Condicionador2.png",
+    avaliacao: 4,
+    categoria: "Cabelo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 52,
+    nome: "Coondicionador Sólido",
+    preco: "40,00",
+    imagem:"/Condicionador3.png",
+    avaliacao: 4,
+    categoria: "Cabelo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+{
+    id: 53,
+    nome: "Coondicionador Sólido",
+    preco: "40,00",
+    imagem:"/Condicionador4.png",
+    avaliacao: 4,
+    categoria: "Cabelo",
+    descricao: "limpa suavimente e remove oleosidade e impiurezas."
+},
+
+
 
 
 ];

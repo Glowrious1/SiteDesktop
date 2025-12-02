@@ -7,7 +7,6 @@ import Produtos from "./components/Pages/Produtos/Produtos.jsx";
 import Cadastro from "./components/Pages/Cadastro/Cadastro.jsx";
 import Rosto from "./components/Pages/Rosto/Rosto.jsx";
 import Duvidas from "./components/Pages/Duvidas/Duvidas.jsx";
-import Corpo from "./components/Pages/Corpo/Corpo.jsx";
 import FuncionarioHome from "./components/Pages/FuncionarioHome/FunHome.jsx";
 import Login from "./components/Pages/Login/Login.jsx";
 import Funcionario from "./components/Pages/Funcionario/Funcionario.jsx";
@@ -17,6 +16,12 @@ import EditarFun from "./components/Pages/EditarFun/EditarFun.jsx";
 import Cliente from "./components/Pages/Cliente/Cliente.jsx";
 import AdicioCli from "./components/Pages/AdicioCli/AdicioCli.jsx"; 
 import EditarCli from "./components/Pages/EditarCli/EditarCli.jsx";
+import Cabelo from "./components/Pages/Cabelo/Cabelo.jsx";
+import Perfumes from "./components/Pages/Perfumes/Perfumes.jsx";
+import Corpo from "./components/Pages/Corpo/Corpo.jsx";
+import FunPro from "./components/Pages/FunProduto/FunPro.jsx";
+import AdicioProdu from "./components/Pages/AdicioPro/AdicioProdu.jsx";
+import EditarPro from "./components/Pages/EditarPro/EditarPro.jsx";
 
 function App() {
   return (
@@ -31,7 +36,6 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/rosto" element={<Rosto />} />
       <Route path="/duvidas" element={<Duvidas/>}/>
-      <Route path="/corpo" element={<Corpo/>}/>
       <Route path="/FuncionarioHome" element={<FuncionarioHome />} />
       <Route path="/Funcionario" element={<Funcionario />} />
       <Route path="/AdicioFun" element={<AdicioFun />} />
@@ -40,6 +44,12 @@ function App() {
       <Route path="/Cliente" element={<Cliente />} />
       <Route path="/AdicioCli" element={<AdicioCli />} />
       <Route path="/EditarCli/:id" element={<EditarCli />} />
+      <Route path="/cabelo" element={<Cabelo />} />
+      <Route path="/perfumes" element={<Perfumes />} />
+      <Route path="/corpo" element={<Corpo />} />
+      <Route path="/funPro" element={<FunPro />} />
+      <Route path="/AdicioTipo" element={<AdicioProdu />} />
+      <Route path="/EditarPro/:id" element={<EditarPro />} />
     </Routes>
     </>
   );

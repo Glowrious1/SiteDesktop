@@ -17,40 +17,46 @@ export default function Rosto() {
       .catch((err) => console.error("Erro ao buscar produtos:", err));
   }, []);
 
-  // ---- FILTRAR APENAS OS PRODUTOS DE ROSTO ----
-  const produtosRosto = produtos.filter((p) => p.categoria === "Maquiagem");
-
-  // dentro do componente (já com useNavigate e outras coisas)
-const userId = 1; // trocar depois pelo usuário logado
-
-const adicionarCarrinho = async (item) => {
-  try {
-    const response = await fetch("http://localhost:3001/carrinho/addItem", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        IdUser: userId,
-        IdProd: item.id,
-        Qtd: 1,
-        ValorUnitario: Number(String(item.preco).replace(",", ".")),
-      }),
-    });
-
-    const data = await response.json();
-    console.log("Adicionado:", data);
-
-    // notify other components (Carrinho) to refresh
-    window.dispatchEvent(new CustomEvent('cart-updated', { detail: { item: data.item } }));
-    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Produto adicionado ao carrinho' } }));
-  } catch (error) {
-    console.log("Erro ao adicionar:", error);
-    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: 'Erro ao adicionar ao carrinho' } }));
-  }
-};
+  // ---- FILTRAR APENAS OS PRODUTOS DE ROSTO (codCategoria = 3) ----
+const produtosRosto = produtos.filter((p) => p.categoria === "Maquiagem");
 
 
+  const userId = 1;
 
-  // ---- ABRIR O PRODUTO CORRETO ----
+  const adicionarCarrinho = async (item) => {
+    try {
+      const response = await fetch("http://localhost:3001/carrinho/addItem", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          IdUser: userId,
+          IdProd: item.id,
+          Qtd: 1,
+          ValorUnitario: Number(String(item.preco).replace(",", ".")),
+        }),
+      });
+
+      const data = await response.json();
+      console.log("Adicionado:", data);
+
+      window.dispatchEvent(
+        new CustomEvent("cart-updated", { detail: { item: data.item } })
+      );
+      window.dispatchEvent(
+        new CustomEvent("show-toast", {
+          detail: { message: "Produto adicionado ao carrinho" },
+        })
+      );
+    } catch (error) {
+      console.log("Erro ao adicionar:", error);
+      window.dispatchEvent(
+        new CustomEvent("show-toast", {
+          detail: { message: "Erro ao adicionar ao carrinho" },
+        })
+      );
+    }
+  };
+
   const irParaProduto = (id) => {
     navigate(`/produto/${id}`);
   };
@@ -125,38 +131,34 @@ const adicionarCarrinho = async (item) => {
         <h2>Produtos para o Rosto</h2>
 
         <div className="lista-produtos">
-        {produtosRosto.map((item) => (
-          <div
-            key={item.id}
-            className="card"
-            onClick={() => irParaProduto(item.id)} // abre página do produto
-            style={{ cursor: "pointer" }}
-          >
-            {/* Conteúdo clicável que leva ao produto */}
-            <div style={{ pointerEvents: "none" }}>
-              <img src={item.imagem} alt={item.nome} />
-              <h3>{item.nome}</h3>
-              <Avaliacao rating={item.avaliacao} />
-              <p>R$ {item.preco}</p>
-            </div>
-
-            {/* Botão separado que não ativa o onClick do card */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation(); // impede ir para tela do produto
-                adicionarCarrinho(item);
-              }}
+          {produtosRosto.map((item) => (
+            <div
+              key={item.id}
+              className="card"
+              onClick={() => irParaProduto(item.id)}
+              style={{ cursor: "pointer" }}
             >
-              Adicionar ao Carrinho
-            </button>
+              <div style={{ pointerEvents: "none" }}>
+                <img src={item.imagem} alt={item.nome} />
+                <h3>{item.nome}</h3>
+                <Avaliacao rating={item.avaliacao} />
+                <p>R$ {item.preco}</p>
+              </div>
 
-          </div>
-        ))}
-
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  adicionarCarrinho(item);
+                }}
+              >
+                Adicionar ao Carrinho
+              </button>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* OUTROS PRODUTOS */}
+      {/* OUTROS */}
       <section className="outros-produtos">
         <div className="topo-outros">
           <h2>Outros Produtos</h2>

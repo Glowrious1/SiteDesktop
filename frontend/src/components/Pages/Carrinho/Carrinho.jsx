@@ -143,8 +143,6 @@ const adicionarAoCarrinho = async (produto) => {
           <label>Complemento</label>
           <input placeholder="Apartamento..." />
 
-          <label>Código de desconto</label>
-          <input placeholder="BRU190" />
 
           <h4 className="total">
             Preço total: <span>R$ {total.toFixed(2)}</span>

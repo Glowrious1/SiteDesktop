@@ -5,7 +5,6 @@ import {
   LayoutDashboard,
   Users,
   User,
-  Settings,
   Grid2x2,
   LogOut,
   ArrowLeft
@@ -93,11 +92,8 @@ export default function EditarFun() {
             <User size={26} strokeWidth={1.7} />
           </button>
 
-          <button className="menu-btn" onClick={() => navigate("/config")}>
-            <Settings size={26} strokeWidth={1.7} />
-          </button>
 
-          <button className="menu-btn" onClick={() => navigate("/produtos")}>
+          <button className="menu-btn" onClick={() => navigate("/funPro")}>
             <Grid2x2 size={26} strokeWidth={1.7} />
           </button>
 
@@ -162,28 +158,7 @@ export default function EditarFun() {
           </form>
         </div>
 
-        {/* FOOTER */}
-        <footer className="footer">
-          <div className="footer-container">
-            <div className="lado-esquerdo">
-              <p>(55) 11 14323-2342</p>
-              <p>LUSTRIOUS@GMAIL.COM</p>
-            </div>
-
-            <div className="footer-icons">
-              <a href="https://www.instagram.com/lustriousskincare/">
-                <img src="/instagram.png" alt="Instagram" />
-              </a>
-              <a href="#">
-                <img src="/linkedin.png" alt="LinkedIn" />
-              </a>
-              <a href="#">
-                <img src="/whatsapp.png" alt="WhatsApp" />
-              </a>
-            </div>
-          </div>
-        </footer>
-
+       
       </main>
     </div>
   );
