@@ -148,7 +148,7 @@ const adicionarAoCarrinho = async (produto) => {
             Preço total: <span>R$ {total.toFixed(2)}</span>
           </h4>
 
-          <button className="confirmar">Confirmar</button>
+          <button className="confirmar" onClick={() => navigate("/pagamento")}>Confirmar</button>
         </div>
 
       </div>

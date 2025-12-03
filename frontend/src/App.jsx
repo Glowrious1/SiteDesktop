@@ -22,6 +22,8 @@ import Corpo from "./components/Pages/Corpo/Corpo.jsx";
 import FunPro from "./components/Pages/FunProduto/FunPro.jsx";
 import AdicioProdu from "./components/Pages/AdicioPro/AdicioProdu.jsx";
 import EditarPro from "./components/Pages/EditarPro/EditarPro.jsx";
+import Pagamento from "./components/Pages/pagamento/Pagamento.jsx";
+import NotaFiscal from "./components/Pages/nota/notafiscal.jsx";
 
 function App() {
   return (
@@ -50,6 +52,8 @@ function App() {
       <Route path="/funPro" element={<FunPro />} />
       <Route path="/AdicioTipo" element={<AdicioProdu />} />
       <Route path="/EditarPro/:id" element={<EditarPro />} />
+      <Route path="/pagamento" element={<Pagamento />} />
+      <Route path="/nota" element={<NotaFiscal />} />
     </Routes>
     </>
   );

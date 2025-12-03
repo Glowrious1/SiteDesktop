@@ -1,0 +1,420 @@
+/* ===========================================
+   ESTILO GERAL DA PÁGINA
+=========================================== */
+
+.pagina-pagamento {
+  width: 100%;
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* ===========================================
+   HEADER (mantido do seu padrão)
+=========================================== */
+
+.header {
+  width: 100%;
+  padding: 18px 50px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.header .logo img {
+  height: 60px;
+}
+
+.menu {
+  display: flex;
+  gap: 35px;
+  list-style: none;
+}
+
+.menu li a {
+  font-size: 17px;
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.menu li a:hover {
+  color: #553419;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icons a svg {
+  transition: .2s;
+}
+
+.icons a:hover svg {
+  transform: scale(1.15);
+  stroke: #382b0d;
+}
+
+/* ===========================================
+   MAIN
+=========================================== */
+
+.main {
+  padding: 50px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ===========================================
+   CARTÃO DO PAGAMENTO
+=========================================== */
+
+.cartao {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  padding: 35px 40px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: slideFade .5s ease forwards;
+}
+
+.titulo-secao {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* ===========================================
+   OPÇÕES DE PAGAMENTO
+=========================================== */
+
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 15px;
+  border: 2px solid #ddd;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: .25s;
+  background: #fafafa;
+}
+
+.opcao:hover {
+  border-color: #4b2617;
+  background: #f7ecff;
+}
+
+.opcao.ativa {
+  border-color: #381f0b;
+  background: #f3e2ff;
+}
+
+.opcao input {
+  display: none;
+}
+
+.icone-metodo {
+  width: 45px;
+  height: 45px;
+  background: #463124;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: white;
+}
+
+/* ===========================================
+   BOTÕES
+=========================================== */
+
+.botao-confirmar {
+  width: 100%;
+  padding: 14px;
+  background: #6b534c;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.botao-confirmar:disabled {
+  background: #3d230d;
+  cursor: not-allowed;
+}
+
+.botao-confirmar:hover:not(:disabled) {
+  background: #724018;
+}
+
+.botao-voltar {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 2px solid #755620;
+  color: #473319;
+  border-radius: 14px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.botao-voltar:hover {
+  background: #f3e2ff;
+}
+
+/* ===========================================
+   PIX
+=========================================== */
+
+.pix-box {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pix-chave {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  background: #f6f0ff;
+  border-radius: 10px;
+}
+
+.qr-area {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.qr-code {
+  width: 160px;
+  height: 160px;
+  margin: 10px auto;
+  background: linear-gradient(135deg, #b673ff 0%, #7b45ff 100%);
+  border-radius: 8px;
+}
+
+.copia-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f6f0ff;
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+.copiar-btn {
+  padding: 5px 10px;
+  background: #b673ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ===========================================
+   PROCESSANDO
+=========================================== */
+
+.fade-in-loading {
+  animation: pulseFade 1.2s infinite ease-in-out;
+}
+
+.spinner {
+  width: 55px;
+  height: 55px;
+  border: 5px solid #eee;
+  border-top-color: #ffb773;
+  border-radius: 50%;
+  margin: 20px auto;
+  animation: girar 1s linear infinite;
+}
+
+/* ===========================================
+   SUCESSO
+=========================================== */
+
+.icon-sucesso {
+  color: #5cc15a;
+}
+
+.sucesso {
+  font-size: 26px;
+  font-weight: bold;
+  color: #3a8b37;
+  text-align: center;
+}
+
+/* ===========================================
+   ANIMAÇÕES
+=========================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseFade {
+  0% { opacity: .7; }
+  50% { opacity: 1; }
+  100% { opacity: .7; }
+}
+
+@keyframes girar {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===========================================
+   RESPONSIVIDADE
+=========================================== */
+
+@media (max-width: 600px) {
+  .cartao {
+    padding: 28px 20px;
+  }
+
+  .header {
+    padding: 12px 20px;
+  }
+
+  .menu {
+    display: none;
+  }
+}
+
+/* overlay com blur */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn .3s ease;
+  z-index: 999;
+}
+
+/* container do modal */
+.modal-cartao {
+  background: white;
+  padding: 25px;
+  width: 350px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  animation: slideUp .35s ease;
+}
+
+.modal-cartao h2 {
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-cartao form label {
+  display: block;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  color: #555;
+}
+
+.modal-cartao input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #d9d9d9;
+  outline: none;
+  transition: .2s;
+}
+
+.modal-cartao input:focus {
+  border-color: #83715a;
+}
+
+.linha {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-cadastrar-cartao {
+  margin-top: 10px;
+  background: #ffffff;
+  border: 1px solid #331f13;
+  color: #775d3b;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.btn-cadastrar-cartao:hover {
+  background: #30241f;
+  color: white;
+}
+
+.btn-salvar-cartao {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background: #4d3d25;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.btn-salvar-cartao:hover {
+  background: #2b1f11;
+}
+
+/* animações */
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(25px); opacity: 0 }
+  to { transform: translateY(0); opacity: 1 }
+}

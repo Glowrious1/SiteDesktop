@@ -439,6 +439,85 @@ app.delete("/Cliente/:id", (req, res) => {
 });
 
 
+const PDFDocument = require('pdfkit');
+const fs = require('fs'); // opcional
+
+// ROTA: criar pagamento
+app.post('/pagamento', (req, res) => {
+  const { pedidoId = null, userId = null, metodo, valor, detalhe = null } = req.body;
+  if (!metodo || !valor) return res.status(400).json({ error: 'Dados incompletos' });
+
+  const sql = `INSERT INTO Pagamentos (pedidoId, userId, metodo, valor, detalhe, status) VALUES (?, ?, ?, ?, ?, ?)`;
+  db.query(sql, [pedidoId, userId, metodo, valor, JSON.stringify(detalhe), 'pendente'], (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    return res.json({ message: 'Pagamento registrado', id: result.insertId });
+  });
+});
+
+// ROTA: confirmar pagamento (simulação)
+app.put('/pagamento/:id/confirmar', (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE Pagamentos SET status='aprovado' WHERE id=?`;
+  db.query(sql, [id], (err) => {
+    if (err) return res.status(500).json(err);
+    return res.json({ message: 'Pagamento confirmado' });
+  });
+});
+
+// ROTA: gerar nota PDF e enviar (stream)
+app.get('/nota/:id', (req, res) => {
+  const id = req.params.id;
+  const q = `SELECT * FROM Pagamentos WHERE id = ?`;
+
+  db.query(q, [id], (err, rows) => {
+    if (err) return res.status(500).json(err);
+    if (!rows || rows.length === 0) return res.status(404).json({ error: 'Pagamento não encontrado' });
+
+    const pagamento = rows[0];
+
+    // Gera PDF com pdfkit
+    const doc = new PDFDocument({ size: 'A4', margin: 40 });
+    res.setHeader('Content-disposition', `attachment; filename=nota_${id}.pdf`);
+    res.setHeader('Content-type', 'application/pdf');
+
+    // Pipe PDF direto para resposta
+    doc.pipe(res);
+
+    // Layout estilizado (você pode ajustar fontes/imagens)
+    doc
+      .fontSize(20)
+      .fillColor('#3b2b27')
+      .text('LUSTRIOUS SKINCARE', { align: 'left' })
+      .moveDown(0.5);
+
+    doc.fontSize(12).fillColor('#6d4f45')
+      .text(`Nota Fiscal - Pedido #${pagamento.pedidoId || 'N/D'}`, { align: 'left' })
+      .moveDown(0.5);
+
+    doc.fontSize(10).fillColor('#444')
+      .text(`ID Pagamento: ${pagamento.id}`)
+      .text(`Método: ${pagamento.metodo}`)
+      .text(`Valor: R$ ${Number(pagamento.valor).toFixed(2)}`)
+      .text(`Status: ${pagamento.status}`)
+      .moveDown(0.6);
+
+    doc.text('Detalhes:', { underline: true });
+    try {
+      const detalhe = JSON.parse(pagamento.detalhe || '{}');
+      doc.fontSize(10).text(JSON.stringify(detalhe, null, 2));
+    } catch (e) {
+      doc.fontSize(10).text(String(pagamento.detalhe || '—'));
+    }
+
+    doc.moveDown(1.2);
+    doc.fontSize(11).text('Obrigado pela sua compra!', { align: 'center' });
+
+    // finalize
+    doc.end();
+  });
+});
+
+
 
 
 
